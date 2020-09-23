@@ -11,12 +11,17 @@ class Order
   end
 
   def total
-    if products == {}
+    if products.empty?
       return 0
     else
       sum = products.values.sum
-      return  (sum + products.values.sum * 0.075).round(2)
+      return  (sum + sum * 0.075).round(2)
     end
-
   end
+
+  def add_product(product_name, price)
+    raise ArgumentError.new("Duplicate products are not allowed") if @products.keys.include?(product_name)
+    @products[product_name] = price
+  end
+
 end
