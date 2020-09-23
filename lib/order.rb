@@ -9,4 +9,14 @@ class Order
     @customer = customer
     @fulfillment_status = fulfillment_status
   end
+
+  def total
+    if products == {}
+      return 0
+    else
+      sum = products.values.sum
+      return  (sum + products.values.sum * 0.075).round(2)
+    end
+
+  end
 end
