@@ -77,15 +77,3 @@ class Order
 end
 
 
-# customer = Customer.new(111111, "aba@aba.com", {street_address:"111 Keen Way", city:"seattle", state:"WA", zip:98103})
-# #
-# one = Order.new(1,{ "banana" => 1.99, "cracker" => 3.00 }, customer)
-# # p one.customer
-#
-# p one.fulfillment_status
-# one.add_product("boychow", 3.1)
-# p one.products
-# one.remove_product("banana")
-# p one.products
-#
-# ap Order.find_by_customer(1)
