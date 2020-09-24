@@ -17,4 +17,14 @@ class Order
 
   attr_accessor :fulfillment_status
 
+  def total
+    if products.length == 0
+      return 0
+    else
+      total_cost = products.sum { |item, price| price }
+      total_cost *= 1.075
+      return total_cost.round(2)
+    end
+  end
+
 end
