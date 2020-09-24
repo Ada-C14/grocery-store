@@ -3,8 +3,6 @@
 # Grocery Store - customer.rb
 # 9/28/2020
 
-# frozen_string_literal: true
-
 # imports
 require 'csv'
 
@@ -43,5 +41,12 @@ class Customer
   def self.find(id)
     return self.all.find{|customer| customer.id == id}
   end
-end
 
+  # takes filename (string of relative filepath of new file) and new_customer (Customer instance) as parameters
+  # writes new_customer info into file with filename with same format as customers.csv
+  def self.save(filename, new_customer)
+    CSV.open(filename, 'a') do |csv|
+      csv << [new_customer.id, new_customer.email, new_customer.address[:street], new_customer.address[:city], new_customer.address[:state], new_customer.address[:zip]]
+    end
+  end
+end
