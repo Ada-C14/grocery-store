@@ -18,6 +18,10 @@ class Order
   end
 
   def total
+    if products.values.all? nil
+      total = "You don't have any products, your total is $0.00"
+      return total
+    end
     product_total = products.values.reduce(:+)
     product_total * 0.075
     total = format("$%.2f", product_total)
@@ -25,12 +29,12 @@ class Order
   end
 
   def add_product(product_name, price)
-    
+    Order[:products] << products[product_name, price]
+    return Order
   end
 end
 
-kayla = Order.new(45678, {"milk" => 8, "sugar" => 10, "bread" => 2}, "Kayla")
-
+kayla = Order.new(45678, {}, "Kayla")
 pp kayla.total
 
 
