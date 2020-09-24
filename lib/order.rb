@@ -22,7 +22,7 @@ class Order
     @customer = customer
     @fulfillment_status = fulfillment_status
   end
-  
+
   # additional accessors/readers
   # total: sum prices of all products plus 7.5% tax (* 1.075), round 2 decimal places, return float
   def total
@@ -41,5 +41,8 @@ class Order
   # OPTIONAL
   # remove_product (String product_name): remove product w/ key.to_s == product name from @products
   #                                       ArgumentError if product not found, NOT case sensitive
-  # WRITE TESTS: (1) successfully add product, (2) successfully raises argument error
+  def remove_product(product)
+    raise ArgumentError, 'Invalid input. Product not found in order.' unless @products.key?(product)
+    @products.delete(product)
+  end
 end
