@@ -1,3 +1,10 @@
+# Pauline Chane (@PaulineChane on GitHub)
+# Ada Developers Academy C14
+# Grocery Store - order_test.rb
+# 9/28/2020
+
+# Minitests for Order class.
+
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
