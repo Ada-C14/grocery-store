@@ -36,5 +36,40 @@ class Order
     return @products.delete(name)
   end
 
+  def self.to_hash(products)
+    product = {}
+    array = products.split(";")
+
+
+    array.each do |e|
+      key_value = e.split(":")
+      product[key_value[0]] = key_value[1].to_f
+    end
+    return product
+  end
+
+
+
+
+  # returns an array of all the order instance in the csv file
+  def self.all
+    orders = []
+    orders_data = CSV.read('data/orders.csv').map {|order| order.to_a}
+    orders_data.each do |order|
+      id = order[0].to_i
+      products = to_hash(order[1])
+      customer = Customer.find(order[2].to_i)
+      status = order[3].to_sym
+      orders << Order.new(id, products, customer, status)
+      #another way of doing the above
+      #orders << Order.new(order[0].to_i, to_hash(order[1]), Customer.find(order[2].to_i), order[3].to_sym)
+    end
+    return orders
+  end
+
+  def self.find(id)
+    return all.find {|order| order.id == id}
+  end
+
 
 end
