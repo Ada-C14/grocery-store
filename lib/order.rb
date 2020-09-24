@@ -1,6 +1,11 @@
 class Order
 
   def initialize(id, products, customer, fulfillment_status = :pending)
+    legal_fulfillment_statuses = [:pending, :paid, :processing, :shipped, :complete]
+    if !legal_fulfillment_statuses.include?(fulfillment_status)
+      raise ArgumentError.new("invalid fulfillment status")
+    end
+
     @id = id
     @products = products
     @customer = customer
