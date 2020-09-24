@@ -39,8 +39,48 @@ class Order
     @products.delete(product_name)
   end
 
+  # Parse product list in format name:price;nextname:nextprice
+  # and return hash { product => cost }
+  def self.parse_product_list(product_list)
+    separated_products = product_list.split(";") # => ["Lobster:17.18", "Annatto seed:58.38"]
+    products_hash = {}
+    separated_products.each do |product_and_cost|
+      product_cost_split = product_and_cost.split(':')
+      product = product_cost_split[0]
+      cost = product_cost_split[1].to_f
+      products_hash[product] = cost
+    end
 
+    return products_hash
+  end
 
+  # Returns a collection of Order instances,
+  # representing all of the Orders described in the CSV file
+  def self.all
+    all_orders = CSV.read('data/orders.csv').map do |order_row|
+      # Example row in CSV => 1,Lobster:17.18;Annatto seed:58.38;Camomile:83.21,25,complete
+      id = order_row[0].to_i
 
+      products_string = order_row[1] # => "Lobster:17.18;Annatto seed:58.38;Camomile:83.21,25,complete"
+      products = parse_product_list(products_string)
 
+      customer_id = order_row[2].to_i
+      customer = Customer.find(customer_id)
+
+      fulfillment_status = order_row[3].to_sym
+
+      Order.new(id, products, customer, fulfillment_status)
+    end
+
+    return all_orders
+  end
+
+  # Returns an instance of Order
+  # where the value of the id field in the CSV matches the passed parameter
+  def self.find(id)
+    all_orders = self.all
+    found_order = all_orders.find { |order| order.id == id }
+
+    return found_order
+  end
 end

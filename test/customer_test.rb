@@ -4,6 +4,7 @@ require 'minitest/skip_dsl'
 
 require_relative '../lib/customer'
 
+
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 describe "Customer Wave 1" do
