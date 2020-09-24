@@ -18,6 +18,7 @@ class Customer
     cust = CSV.read("data/customers.csv")
 
     # cust = CSV.read("../data/customers.csv")
+
     cust.each do |customer|
       id_number = customer[0].to_i
       email_address = customer[1]

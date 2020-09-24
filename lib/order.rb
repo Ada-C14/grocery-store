@@ -1,3 +1,6 @@
+require "csv"
+require_relative "customer"
+
 class Order
 
   attr_reader :id
@@ -34,4 +37,39 @@ class Order
     @products.delete(product_name)
     return @products
   end
+
+  def self.create_hash(string)
+    string = string.split(";")
+
+    all_items = []
+    string.each do |item|
+      item_hash = {}
+      # split item:price
+      split_item = item.split(":")
+      item_hash[split_item[0]] = split_item[1].to_f
+      all_items.push(item_hash)
+    end
+    all_items = all_items.inject{|memo, obj| memo.merge(obj)}
+    return all_items
+  end
+
+  def self.all
+
+    # for rake
+    orders = CSV.read("data/orders.csv")
+    order_list = []
+    # orders = CSV.read("../data/orders.csv")
+
+    orders.each do |order|
+      id_number = order[0].to_i
+      products = order[1]
+      customer = order[2].to_i
+      fulfillment_status = order[3].to_sym
+      order_list.push(Order.new(id_number, create_hash(products), Customer.find(customer), fulfillment_status))
+    end
+    return order_list
+  end
+
 end
+
+# puts Order.all
