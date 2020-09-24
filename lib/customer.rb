@@ -15,7 +15,7 @@ class Customer
 
     customer_array = [] # will become array of customer instances
 
-    CSV.read('data/customers.csv').each do |row_entry| # FIX PATH I keep getting minitest glitch no file errors so i put the file in each folder lol!!!!
+    CSV.read('data/customers.csv').each do |row_entry|
       # first, define which entries should be contained in the address
       address = {
           street: row_entry[2],
