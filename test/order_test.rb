@@ -18,8 +18,8 @@ describe "Order Wave 1" do
     Customer.new(123, "a@a.co", address)
   end
 
-  describe "#initialize" do
-    it "Takes an ID, collection of products, customer, and fulfillment_status" do
+  xdescribe "#initialize" do
+    xit "Takes an ID, collection of products, customer, and fulfillment_status" do
       id = 1337
       fulfillment_status = :shipped
       order = Order.new(id, {}, customer, fulfillment_status)
@@ -37,7 +37,7 @@ describe "Order Wave 1" do
       expect(order.fulfillment_status).must_equal fulfillment_status
     end
 
-    it "Accepts all legal statuses" do
+    xit "Accepts all legal statuses" do
       valid_statuses = %i[pending paid processing shipped complete]
 
       valid_statuses.each do |fulfillment_status|
@@ -46,12 +46,12 @@ describe "Order Wave 1" do
       end
     end
 
-    it "Uses pending if no fulfillment_status is supplied" do
+    xit "Uses pending if no fulfillment_status is supplied" do
       order = Order.new(1, {}, customer)
       expect(order.fulfillment_status).must_equal :pending
     end
 
-    it "Raises an ArgumentError for bogus statuses" do
+    xit "Raises an ArgumentError for bogus statuses" do
       bogus_statuses = [3, :bogus, 'pending', nil]
       bogus_statuses.each do |fulfillment_status|
         expect {
@@ -78,8 +78,8 @@ describe "Order Wave 1" do
     end
   end
 
-  describe "#add_product" do
-    it "Increases the number of products" do
+  xdescribe "#add_product" do
+    xit "Increases the number of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       before_count = products.count
       order = Order.new(1337, products, customer)
@@ -89,7 +89,7 @@ describe "Order Wave 1" do
       expect(order.products.count).must_equal expected_count
     end
 
-    it "Is added to the collection of products" do
+    xit "Is added to the collection of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Order.new(1337, products, customer)
 
@@ -97,7 +97,7 @@ describe "Order Wave 1" do
       expect(order.products.include?("sandwich")).must_equal true
     end
 
-    it "Raises an ArgumentError if the product is already present" do
+    xit "Raises an ArgumentError if the product is already present" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
 
       order = Order.new(1337, products, customer)
@@ -115,12 +115,12 @@ end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
 xdescribe "Order Wave 2" do
-  describe "Order.all" do
-    it "Returns an array of all orders" do
+  xdescribe "Order.all" do
+    xit "Returns an array of all orders" do
       # TODO: Your test code here!
     end
 
-    it "Returns accurate information about the first order" do
+    xit "Returns accurate information about the first order" do
       id = 1
       products = {
         "Lobster" => 17.18,
@@ -140,21 +140,21 @@ xdescribe "Order Wave 2" do
       expect(order.fulfillment_status).must_equal fulfillment_status
     end
 
-    it "Returns accurate information about the last order" do
+    xit "Returns accurate information about the last order" do
       # TODO: Your test code here!
     end
   end
 
-  describe "Order.find" do
-    it "Can find the first order from the CSV" do
+  xdescribe "Order.find" do
+    xit "Can find the first order from the CSV" do
       # TODO: Your test code here!
     end
 
-    it "Can find the last order from the CSV" do
+    xit "Can find the last order from the CSV" do
       # TODO: Your test code here!
     end
 
-    it "Returns nil for an order that doesn't exist" do
+    xit "Returns nil for an order that doesn't exist" do
       # TODO: Your test code here!
     end
   end
