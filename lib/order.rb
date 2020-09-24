@@ -3,6 +3,9 @@
 # Grocery Store - order.rb
 # 9/28/2020
 
+# imports
+require 'csv'
+
 # Class object spec file for Order class.
 require_relative 'customer'
 class Order
@@ -38,11 +41,40 @@ class Order
     @products[product] = price
   end
 
-  # OPTIONAL
-  # remove_product (String product_name): remove product w/ key.to_s == product name from @products
+  # remove_product (OPTIONAL) (String product_name): remove product w/ key.to_s == product name from @products
   #                                       ArgumentError if product not found, NOT case sensitive
   def remove_product(product)
     raise ArgumentError, 'Invalid input. Product not found in order.' unless @products.key?(product)
     @products.delete(product)
+  end
+
+  # class methods
+  # based on an external .csv file containing order data,
+  # returns collection (in this case, array) of order instances
+  def self.all
+    orders_raw = CSV.read('data/orders.csv')
+
+    all_orders = orders_raw.map do |order|
+      # need to modify string of products/prices before adding as hash parameter for products
+      products = order[1].split(';').map{ |pair|
+          key, value = pair.split(':')
+          { key => value.to_f } }.reduce({}, :merge)
+
+      Order.new(order[0].to_i, products, Customer.find(order[2].to_i), order[3].to_sym)
+    end
+
+    return all_orders
+  end
+
+  # returns an instance of Order matched by id value entered as parameter in self.all
+  # returns nil if id not found
+  def self.find(id)
+      return self.all.find{|order| order.id == id}
+  end
+
+  # returns a list (array) of Order instances with input parameter customer id
+  # returns empty array if not found
+  def self.find_by_customer(customer_id)
+    return self.all.select { |order| order.customer.id == customer_id }
   end
 end

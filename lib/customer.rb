@@ -5,7 +5,7 @@
 
 # frozen_string_literal: true
 
-# customer data and imports
+# imports
 require 'csv'
 
 # Class object spec file for Customer class.
