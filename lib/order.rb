@@ -32,14 +32,18 @@ class Order
     raise ArgumentError, "Product already exists in order" if products.has_key?(product_name)
     products.store(product_name, price)
   end
+
+  def remove_product(product_name)
+    if products.has_key?(product_name)
+    products.delete(product_name)
+    else raise "That item doesn't exist in this order."
+    end
+  end
 end
 
 kayla = Order.new(45678, {"bread" => 5, "meat" => 7}, "Kayla")
-kayla.add_product("lobster",5)
-kayla.add_product("bread", 50)
+kayla.remove_product("olives")
 pp kayla
-pp kayla.total
-
 
 
 
