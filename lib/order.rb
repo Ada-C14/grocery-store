@@ -1,5 +1,5 @@
 require_relative 'customer'
-
+require 'csv'
 
 class Order
   attr_reader :id, :products, :customer, :fulfillment_status
