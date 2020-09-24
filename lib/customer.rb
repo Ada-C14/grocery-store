@@ -37,5 +37,19 @@ class Customer
 
     return found_customer
   end
-end
 
+  # Writes a new customer's information into a new customer CSV file
+  def self.save(filename, new_customer)
+    new_customer_array = [
+        new_customer.id,
+        new_customer.email,
+        new_customer.address[:street],
+        new_customer.address[:city],
+        new_customer.address[:state],
+        new_customer.address[:zip]
+    ]
+    new_customer_csv = CSV.open(filename, 'a+') do |csv|
+      csv << new_customer_array
+    end
+  end
+end
