@@ -6,7 +6,7 @@ class Customer
   def initialize(id, email, address)
     @id = id
     @email = email
-    @address = address # {} should this be an empty hash?
+    @address = address
   end
 
 end

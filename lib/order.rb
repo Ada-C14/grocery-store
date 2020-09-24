@@ -1,23 +1,32 @@
 class Order
 
-  attr_reader :id, :product_list, :customer, :fulfillment_status
+  attr_reader :id
+  attr_accessor :products, :customer, :fulfillment_status
 
-  def initialize(id, product_list, customer, fulfillment_status)
+  SALES_TAX = 0.075
+
+  def initialize(id, products, customer, fulfillment_status = :pending)
+
+    valid_fulfillments = [:pending, :paid, :processing, :shipped, :complete]
+    raise ArgumentError, "invalid fulfillment status" unless valid_fulfillments.include?(fulfillment_status)
+
     @id = id
-    @product_list = product_list # this is read in as a hash {}
+    @products = products
     @customer = customer
     @fulfillment_status = fulfillment_status
-  end
 
-  # fulfillment status must be one of these symbols :pending, :paid, :processing, :shipped, or :complete
-  # otherwise raise ArgumentError, "invalid fulfillment status"
-
-  def total
-    total = sum of product costs plus 7.5% sales tax, rounded to 2 decimal places
   end
 
   def add_product(product_name, price)
-    @product_list[product_name] = price
+    raise ArgumentError, "duplicate product" if @products.include?(product_name)
+    @products[product_name] = price
+  end
+
+  def total
+    total = @products.sum { |product_name, price| price }
+    total += (total * SALES_TAX)
+    total = total.round(2)
+    return total
   end
 
 end
