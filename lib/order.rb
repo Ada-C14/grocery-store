@@ -6,14 +6,15 @@ class Order
   attr_accessor :products, :customer, :fulfillment_status
 
   # NOW FOR WAVE 2, WHEN I UNCOMMENT THIS, I GET AN ERROR UNDEFINED FULFILLMENT STATUS LOCAL VARIABLE???
-  # acceptable_fulfillment_status = [:pending, :paid, :processing, :shipped, :complete]
-  # raise ArgumentError.new("status must be pending, paid, processing, shipped or complete") unless acceptable_fulfillment_status.include?(fulfillment_status)
+  ACCEPTABLE_FULFILLMENT_STATUS = [:pending, :paid, :processing, :shipped, :complete]
+
 
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
     @products = products # products collection data hash
     @customer = customer
     @fulfillment_status = fulfillment_status
+    raise ArgumentError.new("status must be pending, paid, processing, shipped or complete") unless ACCEPTABLE_FULFILLMENT_STATUS.include?(fulfillment_status)
   end
 
   def total
@@ -37,7 +38,7 @@ class Order
     CSV.read('data/orders.csv').each do |row_entry|
     products_hash = {}
     row_entry[1].split(';') do |product|
-          products_hash[product.split(':')[0]] = [product.split(':')[1]] # why can't I make the price .to_f????
+          products_hash[product.split(':')[0]] = product.split(':')[1].to_f # why can't I make the price .to_f????
     end
 
     new_order = Order.new(row_entry[0].to_i, products_hash, Customer.find((row_entry[2]).to_i), row_entry[3].to_sym)
