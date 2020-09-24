@@ -27,4 +27,11 @@ class Order
     end
   end
 
+  def add_product(product_name, price)
+    if products.keys.any?(product_name)
+      raise ArgumentError.new("This order already contains #{product_name}")
+    end
+    products[product_name] = price
+  end
+
 end
