@@ -2,9 +2,9 @@ class Order
 
   attr_reader :id, :product_list, :customer, :fulfillment_status
 
-  def initialize
+  def initialize(id, product_list, customer, fulfillment_status)
     @id = id
-    @product_list = {}
+    @product_list = product_list # this is read in as a hash {}
     @customer = customer
     @fulfillment_status = fulfillment_status
   end
