@@ -83,4 +83,13 @@ class Order
 
     return found_order
   end
+
+  def self.find_by_customer(customer_id)
+    all_orders = self.all
+    found_orders = all_orders.select { |order| order.customer.id == customer_id}
+
+    return nil if found_orders == []
+
+    return found_orders
+  end
 end
