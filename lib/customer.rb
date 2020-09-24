@@ -1,15 +1,16 @@
 class Customer
 
   attr_reader :id
-  attr_accessor :email, :delivery_address
+  attr_accessor :email, :address
 
-  def initialize(id, email, delivery_address)
+  def initialize(id, email, address)
     @id = id
-    raise ArgumentError, 'id must be a number.' if id < 1
     @email = email
-    raise ArgumentError, 'email must be a string' if email.class != String
-    @delivery_address = delivery_address
-    raise ArgumentError, 'address must be a hash' if delivery_address.class != Hash
+    @address = address
+
+    raise "id must be a number." if id < 1
+    raise "email must be a string" if email.class != String
+    raise "address must be a hash" if address.class != Hash
   end
 end
 
