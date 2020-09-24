@@ -12,19 +12,19 @@ class Customer
 
 
   def self.all
-
     customer_data = read_customer_csv('data/customers.csv')
     customer_info_array = transform_address(customer_data)
     all_customers = make_customers(customer_info_array)
+
     return all_customers
   end
 
   def self.find(id)
+    customers_array = all
 
-
+    return customers_array.find { |customer| customer.id == id }
   end
 
-  private
 
   def self.read_customer_csv(filename)
     customer_array = CSV.read(filename).map { |row| row.to_a }
@@ -36,14 +36,14 @@ class Customer
     customers_w_address_hash = []
     customers_data.each do |customer|
       customers_w_address_hash << [
-          customer[0].to_i,
-          customer[1].to_s,
-          {
-              street: customer[2].to_s,
-              city: customer[3].to_s,
-              state: customer[4].to_s,
-              zip: customer[5].to_s
-          }
+      customer[0].to_i,
+      customer[1].to_s,
+      {
+      street: customer[2].to_s,
+      city: customer[3].to_s,
+      state: customer[4].to_s,
+      zip: customer[5].to_s
+      }
       ]
     end
     return customers_w_address_hash
@@ -55,5 +55,7 @@ class Customer
     end
     return customers_array
   end
+
+  private_class_method :make_customers, :transform_address, :read_customer_csv
 
 end
