@@ -29,13 +29,16 @@ class Order
   end
 
   def add_product(product_name, price)
+    raise ArgumentError, "Product already exists in order" if products.has_key?(product_name)
     products.store(product_name, price)
   end
 end
 
 kayla = Order.new(45678, {"bread" => 5, "meat" => 7}, "Kayla")
 kayla.add_product("lobster",5)
+kayla.add_product("bread", 50)
 pp kayla
+pp kayla.total
 
 
 
