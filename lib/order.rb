@@ -3,8 +3,6 @@ class Order
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
 
-  SALES_TAX = 0.075
-
   def initialize(id, products, customer, fulfillment_status = :pending)
 
     valid_fulfillments = [:pending, :paid, :processing, :shipped, :complete]
@@ -23,9 +21,7 @@ class Order
   end
 
   def total
-    total = @products.sum { |product_name, price| price }
-    total += (total * SALES_TAX)
-    total = total.round(2)
+    total = (@products.sum { |product_name, price| price } * 1.075).round(2)
     return total
   end
 
