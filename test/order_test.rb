@@ -154,12 +154,12 @@ describe "Order Wave 2" do
     it "Returns accurate information about the last order" do
       # TODO: Your test code here!
       id = 100
-      products = {"Amaranth" => 83, "Smoked Trout" => 70}
+      products = {"Amaranth" => 83.81, "Smoked Trout" => 70.6, "Cheddar" => 5.63}
       customer_id = 20
       fulfillment_status = :pending
 
-
       last = Order.all.last
+
       expect(last.id).must_equal id
       expect(last.products).must_equal products
       expect(last.customer).must_be_kind_of Customer
