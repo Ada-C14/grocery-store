@@ -50,7 +50,15 @@ class Order
   end
 
   def self.find(id)
-    raise NotImplementedError
+    all_orders = all
+    return all_orders.find { |order| order.id == id }
+  end
+
+  def self.find_by_customer(customer_id)
+    all_orders = all
+    customer_orders = all_orders.find_all { |order| order.customer.id == customer_id }
+
+    customer_orders.empty? ? nil : customer_orders
   end
 
   def self.parse_order_csv(filename)
@@ -73,9 +81,10 @@ class Order
 
   def self.make_customers(orders)
     customers = orders.map do |order|
-      Order.new(order[0], order[1], order[2], order[3])
+      Order.new(* order)
     end
     return customers
   end
 
+  private_class_method :parse_order_csv, :format_orders, :make_customers
 end
