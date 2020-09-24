@@ -23,7 +23,8 @@ class Order
   end
 
   def add_product(product_name, price)
-    raise ArgumentError.new("This product is already in the collection") if @products.keys.include?(product_name.to_sym)
-    @products[product_name.to_sym] = price
+    raise ArgumentError.new("This product is already in the collection") if @products.keys.include?(product_name)
+    @products[product_name] = price
+    return @products
   end
 end
