@@ -13,6 +13,7 @@ class Customer
   def self.all
 
     customer_list = []
+
     # for rake
     cust = CSV.read("data/customers.csv")
 
@@ -29,6 +30,11 @@ class Customer
       customer_list.push(Customer.new(id_number, email_address, delivery_address))
     end
     return customer_list
+  end
+
+  def self.find(id_number)
+    customer_list = Customer.all
+    return customer_list.find{|customer| customer.id == id_number}
   end
 end
 
