@@ -25,5 +25,4 @@ class Customer
     return found_customer
   end
 end
-#
-# ap Customer.all
+
