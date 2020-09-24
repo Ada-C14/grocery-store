@@ -29,13 +29,13 @@ class Order
   end
 
   def add_product(product_name, price)
-    Order[:products] << products[product_name, price]
-    return Order
+    products.store(product_name, price)
   end
 end
 
-kayla = Order.new(45678, {}, "Kayla")
-pp kayla.total
+kayla = Order.new(45678, {"bread" => 5, "meat" => 7}, "Kayla")
+kayla.add_product("lobster",5)
+pp kayla
 
 
 
