@@ -10,12 +10,8 @@ class Customer
     @address = address
   end
 
-  # self.all and self.find are class methods
   # return a collection of Customer instances, representing all of the Customers describe in the CSV file
-  # dp we need params for the all class method?
   def self.all
-    # need to read in the csv
-    # how do I transfer CSV data into an array?
     customer_array = []
     customer_data = CSV.read('data/customers.csv').map { |customer| customer.to_a }
     customer_data.each do |customer|
@@ -28,10 +24,15 @@ class Customer
     return customer_array # => array of all the customer instances
   end
 
+  # returns matching customer instance as the input
   def self.find(id)
-    # should invoke Customer.all and search through the results for a customer with a matching ID
     return all.find {|customer| customer.id == id} # returns nil if ID is not found
+  end
 
+  def self.save(filename, new_customer)
+    CSV.open(filename, "a") do |csv|
+      csv << [new_customer.id, new_customer.email, new_customer.address[:street], new_customer.address[:city], new_customer.address[:state], new_customer. .address[:zip]]
+    end
   end
 
 end

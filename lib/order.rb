@@ -40,16 +40,12 @@ class Order
     product = {}
     array = products.split(";")
 
-
     array.each do |e|
       key_value = e.split(":")
       product[key_value[0]] = key_value[1].to_f
     end
     return product
   end
-
-
-
 
   # returns an array of all the order instance in the csv file
   def self.all
@@ -71,5 +67,11 @@ class Order
     return all.find {|order| order.id == id}
   end
 
+  # TO DO: OPTIONAL
+  #returns a list of Order instance where the value of the customer's ID matches the passed parameter
+  def self.find_by_customer(customer_id)
+    orders_of_customer = all.find_all {|order| order.customer.id == customer_id}
+    return orders_of_customer
 
+  end
 end

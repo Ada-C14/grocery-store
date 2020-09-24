@@ -216,4 +216,36 @@ describe "Order Wave 2" do
       expect(Order.find(59808)).must_be_nil
     end
   end
+  describe "Order.find_by_customer" do
+    it "returns list with all order instances matching the customer ID" do
+      found_list = Order.find_by_customer(10)
+
+      expect(found_list.length).must_equal 4
+      found_list.each do |order|
+        expect(order).must_be_kind_of Order
+        expect(order.fulfillment_status).must_be_kind_of Symbol
+        expect(order.id).must_be_kind_of Integer
+        expect(order.products).must_be_kind_of Hash
+      end
+    end
+
+    #NEED TO WORK ON THIS TEST SOME MORE
+    xit "includes a right instance variables of the order instance " do
+        chosen_customer = Customer.new(10, "elisabeth.smith@thiel.io", {
+            street: "1520 Velda Spring",
+            city: "North Shannonmouth",
+            state: "MA",
+            zip: "32144-9296"
+        })
+      found_list = Order.find_by_customer(10)
+
+      chosen_product = {"Ricemilk" =>5.07}
+
+      chosen_order = Order.new(16, chosen_product, chosen_customer, :processing)
+
+      expect(found_list.include?(chosen_order)).must_equal true
+
+    end
+
+  end
 end
