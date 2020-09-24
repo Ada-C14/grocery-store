@@ -26,4 +26,13 @@ class Order
       return @products[name] = price
     end
   end
+
+  def remove_product(name)
+    if @products.key?(name)
+      @products.delete(name)
+    else
+      raise ArgumentError, "Great news! That product isn't even in your cart."
+    end
+
+  end
 end
