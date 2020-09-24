@@ -1,21 +1,28 @@
 class Order
-  attr_reader :id
+  attr_reader :id, :products, :customer, :fulfillment_status
 
-  def initialize(id, products_and_prices, customer, fulfillment_status = :pending)
+  def initialize(id, products, customer, fulfillment_status = :pending)
     statuses = %i[pending paid processing shipped complete]
-    if !statuses.include?(@fulfillment_status)
-      raise ArgumentError, "#{@fulfillment_status} is an INVALID status."
+    if !statuses.include?(fulfillment_status)
+      raise ArgumentError.new("#{fulfillment_status} is an INVALID status.")
     end
     @id = id
-    @products_and_prices = products_and_prices
+    @products = products
     @customer = customer
     @fulfillment_status = fulfillment_status
   end
 
   def total
-    sum = @products_and_prices.values.sum
-    tax = sum * 0.75
+    sum = @products.values.sum
+    tax = sum * 0.075
     total = (sum + tax).round(2)
     return total
+  end
+
+  def add_product(name, price)
+    if @products.has_key?(name)
+      raise ArgumentError.new("#{name} has already been added to the order")
+    end
+    @products[name] = price
   end
 end
