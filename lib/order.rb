@@ -17,7 +17,24 @@ class Order
 
   end
 
+  def total
+    product_total = products.values.reduce(:+)
+    product_total * 0.075
+    total = format("$%.2f", product_total)
+    return total
+  end
+
+  def add_product(product_name, price)
+    
+  end
 end
 
-kaylas_order = Order.new(4534, {}, "Kayla", :paid)
-pp kaylas_order
+kayla = Order.new(45678, {"milk" => 8, "sugar" => 10, "bread" => 2}, "Kayla")
+
+pp kayla.total
+
+
+
+
+# kayla_order = Order.new(4534, {}, "Kayla", :invalid)
+# pp kayla_order
