@@ -13,16 +13,24 @@ class Order
   end
 
   def total
-    sum = @products.values.sum
+    sum = products.values.sum
     tax = sum * 0.075
     total = (sum + tax).round(2)
     return total
   end
 
   def add_product(name, price)
-    if @products.has_key?(name)
+    if products.has_key?(name)
       raise ArgumentError.new("#{name} has already been added to the order")
     end
-    @products[name] = price
+    products[name] = price
+  end
+
+  # optional
+  def remove_product(name)
+    product_removed = products.delete(name)
+    unless product_removed
+      raise ArgumentError.new("#{name} does not exist in the order")
+    end
   end
 end
