@@ -3,6 +3,7 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
 require_relative '../lib/customer'
+# load '/Users/ada/Developer/classroom/ruby/week-4/grocery-store/lib/customer.rb'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
