@@ -1,3 +1,6 @@
+require 'csv'
+require_relative 'customer'
+
 class Order
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
@@ -38,5 +41,33 @@ class Order
 
     return @products
   end
+
+  def self.parse_product_data(info)
+    product_data = info.split(";")
+    product_data = Hash[ product_data.map { |item| item.split(":") }]
+    product_data = Hash[ product_data.keys.zip(product_data.values.map(&:to_f))]
+    return product_data
+  end
+
+  def self.all
+    order_data = CSV.read("data/orders.csv").map do |info|
+      self.new(
+        info[0].to_i,
+        parse_product_data(info[1]),
+        Customer.find(info[-2].to_i),
+        info[-1].to_sym
+        )
+    end
+    return order_data
+  end
+
+  def self.find(id)
+    order_data = self.all
+    search = order_data.find do |info|
+      info if info.id == id
+    end
+    return search
+  end
+
 
 end
