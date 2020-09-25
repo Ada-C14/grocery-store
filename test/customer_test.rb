@@ -63,7 +63,7 @@ describe "Customer Wave 2" do
       last = Customer.all.last
 
       expect(last.id).must_equal 35
-      expect(last.email).must_equal "rogers_koelpin@oconnell.org"
+      expect(last.email).must_equal 'rogers_koelpin@oconnell.org'
       expect(last.address[:street]).must_equal '7513 Kaylee Summit'
       expect(last.address[:city]).must_equal 'Uptonhaven'
       expect(last.address[:state]).must_equal 'DE'
