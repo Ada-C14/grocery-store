@@ -46,7 +46,7 @@ class Order
 
   def self.all
     @order = Array.new
-    CSV.read('../data/orders.csv').each do |order| 
+    CSV.read('data/orders.csv').each do |order| 
       product_hash = Hash.new
       order[1].split(";").each do |item|
         name, price = item.split(":")
