@@ -1,5 +1,7 @@
-class Order
+require_relative 'customer'
+require 'csv'
 
+class Order
   attr_reader :id, :products, :customer, :fulfillment_status
 
   def initialize(id, products, customer, fulfillment_status = :pending)
@@ -7,9 +9,7 @@ class Order
     @products = products
     @customer = customer
     @fulfillment_status = fulfillment_status
-
     raise ArgumentError if ![:pending, :paid, :processing, :shipped, :complete].include?(@fulfillment_status)
-
   end
 
   def total
@@ -31,4 +31,24 @@ class Order
       @products.delete(product_name)
     end
   end
+
+  def self.all
+    orders_raw = CSV.read('data/orders.csv')
+
+    all_orders = orders_raw.map do |order|
+
+      products = order[1].split(';').map{ |pair|
+        key, value = pair.split(':')
+        { key => value.to_f } }.reduce({}, :merge)
+
+      Order.new(order[0].to_i, products, Customer.find(order[2].to_i), order[3].to_sym)
+    end
+
+    return all_orders
+  end
+
+  def self.find(id)
+    return self.all.find{|order| order.id == id}
+  end
+
 end
