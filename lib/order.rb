@@ -1,8 +1,12 @@
+require 'csv'
+
 class Order
   attr_reader(:id, :fulfillment_status)
   attr_accessor(:products, :customer)
 
   VALID_STATUS = %i[pending paid processing shipped complete].freeze # add tips symbol step 1
+  ORDER_DATA = CSV.read('../data/orders.csv', headers:true).map { |row| row.to_h }
+
 
   def initialize(id, products, customer, fulfillment_status = :pending) # add tips
     @id = id

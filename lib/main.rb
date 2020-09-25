@@ -1,21 +1,11 @@
 require_relative 'order'
 require_relative 'customer'
+require 'csv'
 
 # order_something = Order.new(22,{banana: 1, apple: 2}, :complete)
 # puts order_something.add_product(:milk,3)
 # puts order_something.products
-address = {
-    street: "123 Main",
-    city: "Seattle",
-    state: "WA",
-    zip: "98101"
-}
-customer = Customer.new(123, "a@a.co", address)
+#order_data = CSV.read('../data/orders.csv', headers:true).map { |row| row.to_h }
 
-id = 1337
-fulfillment_status = :shipped
-order = Order.new(id, {}, customer, fulfillment_status)
 
-puts customer.id
-p order
-
+p Customer.find(35)
