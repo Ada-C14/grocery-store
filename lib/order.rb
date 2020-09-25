@@ -22,12 +22,10 @@ class Order
   end
 
   def add_product(product_name, price)
-    unless @products.has_key?(product_name)
-      @products[product_name] = price
-    else
-      raise ArgumentError.new("Product already exists!")
+    if @products.has_key?(product_name)
+      raise ArgumentError.new("#{product_name} already listed")
     end
-
+    @products[product_name] = price
     return @products
   end
 
@@ -35,7 +33,7 @@ class Order
     if @products.has_key?(product_name)
       @products.delete(product_name)
     else
-      raise ArgumentError.new("Product not found!")
+      raise ArgumentError.new("#{product_name} not found")
     end
 
     return @products
