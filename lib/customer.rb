@@ -1,3 +1,7 @@
+require 'customer.csv'
+
+
+
 class Customer
   attr_reader :id, :email, :address
 

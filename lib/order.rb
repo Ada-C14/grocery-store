@@ -43,7 +43,7 @@ class Order
     new_list = @products.select { |product, cost| product != product_name}
 
     # the new list count must be one less than the initial count
-    # if not, raises argument error
+    # if not, raises argument error because the product was not found
     if new_list.count == before_count - 1
       @products = new_list
     else
