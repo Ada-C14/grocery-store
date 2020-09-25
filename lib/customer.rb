@@ -14,16 +14,29 @@ class Customer
     raise "email must be a string" if email.class != String
     raise "address must be a hash" if address.class != Hash
   end
+
+  def self.all
+    customers = []
+    CSV.read('data/customers.csv').map { |row| row.to_a}.each do |row|
+      customers << Customer.new(row[0].to_i, row[1], {:street => row[2], :city => row[3], :state => row[4], :zip => row[5]})
+    end
+    return customers
+  end
 end
 
-def self.all(file)
-  customers = CSV.read(file).map { |row| row.to_a}
+
+# first = Customer.all.first
+# pp first.address[:street]
 
 
 
-end
+# pp customers = Customer.all
+# pp customers.class
 
-pp self.all('../data/customers.csv')
+# pp customers = Customer.all
+
+
+# pp self.all('data/customers.csv')
 
 # def self.find(id)
 #
