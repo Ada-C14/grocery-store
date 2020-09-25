@@ -29,6 +29,7 @@ class Customer
   end
 
   def self.find(id)
-    self.all.select { |customer| customer.id == id }.empty? ? (return nil) : (return self.all.select { |customer| customer.id == id }[0])
+    customer_found = self.all.select { |customer| customer.id == id }
+    customer_found.empty? ? (return nil) : (return customer_found[0])
   end
 end
