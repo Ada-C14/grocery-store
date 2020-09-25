@@ -68,4 +68,11 @@ class Order
     order_found = self.all.select { |order| order.id == id }
     order_found.empty? ? (return nil) : (return order_found[0])
   end
+
+  # Order.find_by_customer(customer_id) -
+  # returns a list of Order instances where the value of the customer's ID matches the passed parameter.
+  def self.find_by_customer(customer_id)
+    customer_orders = self.all.select { |order| order.customer.id == customer_id }
+    customer_orders.empty? ? (return nil) : (return customer_orders)
+  end
 end
