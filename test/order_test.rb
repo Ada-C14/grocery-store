@@ -222,4 +222,18 @@ describe "Order Wave 2" do
       expect(Order.find(987654321)).must_be_nil
     end
   end
+
+  describe "Order.find_by_customer" do
+    it "Returns an array of orders with same customer ID" do
+      customer_orders = Order.find_by_customer(25)
+      customer_orders.each do |order|
+        expect(order).must_be_kind_of Order
+        expect(order.customer.id).must_equal 25
+      end
+    end
+
+      it "Returns nil if customer ID doesn't exist" do
+        expect(Order.find_by_customer(987654321)).must_be_nil
+      end
+    end
 end
