@@ -17,18 +17,10 @@ class Customer
 end
 
 def self.all(file)
-  customers = []
-  CSV.read(file).each do |record|
-    customer = {
-        "ID" => record[1],
-        "Name" => record[1],
-        "Address 1" => record[2],
-        "City" => record[3],
-        "State" => record[4],
-        "Zip Code" => record[5]
-    }
-    customers << customer
-  end
+  customers = CSV.read(file).map { |row| row.to_a}
+
+
+
 end
 
 pp self.all('../data/customers.csv')
