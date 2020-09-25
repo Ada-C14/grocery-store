@@ -11,7 +11,7 @@ class Customer
     @address = address
   end
 
-  # I have a scope issue here below.
+  #### WAVE 2 ####
 
   def self.all
 
@@ -34,9 +34,6 @@ class Customer
     end
     return all_customers
   end
-
-  p self.all.first
-  p self.all.last
 
   def self.find(id)
     customer = self.all.find { |customer| customer.id == id }
