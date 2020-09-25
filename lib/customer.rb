@@ -30,4 +30,8 @@ class Customer
     return all_customers
   end
 
+  def self.find(id)
+    return self.all.find { |customer| customer.id == id }
+  end
+
 end
