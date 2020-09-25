@@ -32,4 +32,10 @@ class Order
       products[product_name] = price
     end
   end
+
+  def remove_product(product_name)
+    unless products.delete(product_name)
+      raise ArgumentError, "This product does not exist, so it cannot be removed."
+    end
+  end
 end
