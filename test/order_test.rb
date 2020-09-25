@@ -240,11 +240,35 @@ describe "Order Wave 2" do
     end
   end
 
-  xdescribe "Order.find_by_customer" do
+  describe "Order.find_by_customer" do
+    before do
+      @customer_id = 30
+      @order1 = Order.new(50, {"Star Fruit" => 51.8}, 30, :processing)
+      @order3 = Order.new(64, {"Polenta" => 53.62, "Cacao" => 59.06, "Hokkien Noodles" => 10.06, "Cumquat" => 24.09}, 30, :complete)
+      @orders = Order.find_by_customer(@customer_id)
+    end
     it "returns a list of Order instances" do
-
+      expect(@orders).must_be_instance_of Array
+      expect(@orders[0]).must_be_instance_of Order
+      expect(@orders[-1]).must_be_instance_of Order
     end
 
+    it "Returns accurate information about the first order" do
+
+      expect(@orders[0]).must_be_instance_of Order
+      expect(@orders[0].id).must_equal @order1.id
+      expect(@orders[0].products).must_equal @order1.products
+      expect(@orders[0].customer).must_be_instance_of Customer
+      expect(@orders[0].fulfillment_status).must_equal @order1.fulfillment_status
+    end
+
+    it "returns accurate information about the last order" do
+      expect(@orders[-1]).must_be_instance_of Order
+      expect(@orders[-1].id).must_equal @order3.id
+      expect(@orders[-1].products).must_equal @order3.products
+      expect(@orders[-1].customer).must_be_instance_of Customer
+      expect(@orders[-1].fulfillment_status).must_equal @order3.fulfillment_status
+    end
   end
 
 
