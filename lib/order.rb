@@ -1,24 +1,24 @@
 class Order
-  attr_reader(:order_id, :fulfillment_status)
-  attr_accessor(:products, :costumer)
+  attr_reader(:id, :fulfillment_status)
+  attr_accessor(:products, :customer)
 
-  VALID_STATUS = %i[pending paid processing shipped complete].freeze # add tips
+  VALID_STATUS = %i[pending paid processing shipped complete].freeze # add tips symbol step 1
 
-  def initialize(order_id, products, customer, fulfillment_status = :pending) # add tips
-    @order_id = order_id
+  def initialize(id, products, customer, fulfillment_status = :pending) # add tips
+    @id = id
     @products = products
     @customer = customer
     self.fulfillment_status = fulfillment_status
   end
 
-  def fulfillment_status=(fulfillment_status) # the writer method
+  def fulfillment_status=(fulfillment_status) # the writer method step 3
     validate_fulfillment_status(fulfillment_status)
     @fulfillment_status = fulfillment_status
   end
 
   def validate_fulfillment_status(fulfillment_status)
     unless VALID_STATUS.include? fulfillment_status
-      raise ArgumentError, "Invalid status #{fulfillment_status}" # add to tips
+      raise ArgumentError, "Invalid status #{fulfillment_status}" # add to tips step 2
     end
   end
 
@@ -33,7 +33,8 @@ class Order
     if @products.include? product_name
       raise ArgumentError, "#{product_name} is already in products list"
     else
-      @products[:product_name]= price
+
+      @products[product_name]= price
     end
   end
 
