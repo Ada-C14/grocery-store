@@ -17,14 +17,19 @@ class Customer
   def self.all
     all = []
 
-    csv = CSV.read('data/customers.csv').map {|row| row.to_a}
+    csv = CSV.read('data/customers.csv')
     csv.each do |data|
-      customer = []
-      customer << @id = data[0].to_i
-      customer << @email = "#{data[1]}"
-      customer << @address = "#{data[2]}, #{data[3]} #{data[4]}, #{data[5]}"
-      all << customer
+      id = data[0].to_i
+      email = data[1]
+      address = {
+          street: data[2],
+          city: data[3],
+          state: data[4],
+          zip: data[5]
+      }
+      all << Customer.new(id, email, address)
     end
+
     return all
   end
 
