@@ -1,3 +1,10 @@
+# Pauline Chane (@PaulineChane on GitHub)
+# Ada Developers Academy C14
+# Grocery Store - customer_test.rb
+# 9/28/2020
+
+# Minitests for Customer class.
+
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
@@ -33,7 +40,7 @@ describe "Customer Wave 1" do
 end
 
 # TODO: remove the 'x' in front of this block when you start wave 2
-xdescribe "Customer Wave 2" do
+describe "Customer Wave 2" do
   describe "Customer.all" do
     it "Returns an array of all customers" do
       customers = Customer.all
@@ -91,3 +98,4 @@ xdescribe "Customer Wave 2" do
     end
   end
 end
+
