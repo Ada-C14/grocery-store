@@ -42,15 +42,20 @@ class Order
     end
   end
 
+  def self.parse_products(products_in_order)
+    products = {}
+    products_in_order.split(';').each do |product|
+      products[product.split(':')[0]] = product.split(':')[1].to_f
+    end
+    return products
+  end
+
   def self.all
     all_orders = CSV.read('data/orders.csv').map { |row| row.to_a }
 
     all_orders = all_orders.map do |order|
       id = order[0].to_i
-      products = {}
-      order[1].split(';').each do |product|
-        products[product.split(':')[0]] = product.split(':')[1].to_f
-      end
+      products = self.parse_products(order[1])
       customer = Customer.find(order[2].to_i)
       fulfillment_status = order[3].to_sym
       Order.new(id, products, customer, fulfillment_status)
