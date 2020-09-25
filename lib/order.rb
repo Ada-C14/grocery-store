@@ -15,15 +15,24 @@ class Order
     end
   end
 
-  # create a total method which will calculate the total cost of the order
+  # calculate the total cost of the order
   def total
-    # sum up the products
-    # products come in as a hash, item/ price
+    # products come in as a hash, item/price
+    # extracts all of the values and sums them up
     cost = products.values.sum
-    # add 7.5% tax
+    # add 7.5% tax and round to two decimal places
     total_cost = (cost * 1.075).round(2)
-    # round to two decimal places
     return total_cost
+  end
+
+  def add_product(product_name, price)
+    # raise error if there is a duplicate product
+    if @products.keys.include?(product_name)
+      raise ArgumentError.new('Item has already been added to the order')
+    end
+
+    # add product to the products hash
+    @products[product_name] = price
   end
 
 end
