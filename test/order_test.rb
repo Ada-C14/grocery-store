@@ -111,10 +111,45 @@ describe "Order Wave 1" do
       expect(order.total).must_equal before_total
     end
   end
+  
+  # Optional - test for remove_product
+  describe "#remove_product" do
+    it "Decreases the number of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "sandwich" => 4.25 }
+      before_count = products.count
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("sandwich")
+      expected_count = before_count - 1
+      expect(order.products.count).must_equal expected_count
+    end
+
+    it "Is deleted the collection of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "sandwich" => 4.25}
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("sandwich")
+      expect(order.products.include?("sandwich")).must_equal false
+    end
+
+    it "Raises an ArgumentError if the product is already deleted" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+
+      order = Order.new(1337, products, customer)
+      before_total = order.total
+
+      expect {
+        order.remove_product("sandwich")
+      }.must_raise ArgumentError
+
+      # The list of products should not have been modified
+      expect(order.total).must_equal before_total
+    end
+  end
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
       # TODO: Your test code here!
