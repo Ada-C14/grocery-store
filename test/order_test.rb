@@ -111,13 +111,45 @@ describe "Order Wave 1" do
       expect(order.total).must_equal before_total
     end
   end
+
+  describe "#remove_product" do
+    it "removes a product" do
+      products = {"banana" => 1.99, "cracker" => 3.00 }
+
+      order = Order.new(1337, products, customer)
+      before_count = products.count
+
+      order.remove_product("banana")
+      expected_count = before_count - 1
+
+      expect(order.products.count).must_equal expected_count
+    end
+
+    it "raises an error if product to be deleted is not in collection" do
+      products = {"banana" => 1.99, "cracker" => 3.00 }
+
+      order = Order.new(1337, products, customer)
+      expect{order.remove_product("cookies")}.must_raise ArgumentError
+    end
+  end
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
+      expect(Order.all).must_be_instance_of Array
+    end
+
+    it "returns Order instance with related attributes" do
+      orders = Order.all
+
+      orders.each do |order|
+        expect(order).must_be_instance_of Order
+        expect(order.id).must_be_kind_of Integer
+        expect(order.products).must_be_kind_of Hash
+        expect(order.customer).must_be_instance_of Customer
+        expect(order.fulfillment_status).must_be_kind_of Symbol
+      end
     end
 
     it "Returns accurate information about the first order" do
@@ -141,21 +173,102 @@ xdescribe "Order Wave 2" do
     end
 
     it "Returns accurate information about the last order" do
-      # TODO: Your test code here!
+
+      id = 100
+      products = {
+          "Amaranth" => 83.81,
+          "Smoked Trout" => 70.6,
+          "Cheddar" => 5.63
+      }
+      # customer = Customer.find(20)
+      fulfillment_status = :pending
+      order = Order.all.last
+
+      expect(order.id).must_equal id
+      expect(order.products).must_equal products
+      # okay but why doesnt this work
+      # expect(order.customer).must_equal customer
+      expect(order.customer).must_be_instance_of Customer
+      expect(order.customer.id).must_equal 20
+      expect(order.fulfillment_status).must_equal fulfillment_status
     end
   end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      id = 1
+      products = {
+          "Lobster" => 17.18,
+          "Annatto seed" => 58.38,
+          "Camomile" => 83.21
+      }
+      customer = 25
+      fulfillment_status = :complete
+
+      order = Order.find(id)
+
+      expect(order).must_be_instance_of Order
+      expect(order.id).must_equal id
+      expect(order.products).must_equal products
+      expect(order.customer).must_be_instance_of Customer
+      expect(order.customer.id).must_equal customer
+      expect(order.fulfillment_status).must_equal fulfillment_status
+
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      id = 100
+      products = {
+          "Amaranth" => 83.81,
+          "Smoked Trout" => 70.6,
+          "Cheddar" => 5.63
+      }
+      customer = 20
+      fulfillment_status = :pending
+      order = Order.find(id)
+
+      expect(order).must_be_instance_of Order
+      expect(order.id).must_equal id
+      expect(order.products).must_equal products
+      expect(order.customer).must_be_instance_of Customer
+      expect(order.customer.id).must_equal customer
+      expect(order.fulfillment_status).must_equal fulfillment_status
     end
 
     it "Returns nil for an order that doesn't exist" do
-      # TODO: Your test code here!
+      expect(Order.find(100000)).must_be_nil
+    end
+  end
+
+  describe "Order.find_by_customer" do
+    before do
+      @customer_id = 30
+      @order1 = Order.new(50, {"Star Fruit" => 51.8}, 30, :processing)
+      @order3 = Order.new(64, {"Polenta" => 53.62, "Cacao" => 59.06, "Hokkien Noodles" => 10.06, "Cumquat" => 24.09}, 30, :complete)
+      @orders = Order.find_by_customer(@customer_id)
+    end
+    it "returns a list of Order instances" do
+      expect(@orders).must_be_instance_of Array
+      expect(@orders[0]).must_be_instance_of Order
+      expect(@orders[-1]).must_be_instance_of Order
+    end
+
+    it "Returns accurate information about the first order" do
+
+      expect(@orders[0]).must_be_instance_of Order
+      expect(@orders[0].id).must_equal @order1.id
+      expect(@orders[0].products).must_equal @order1.products
+      expect(@orders[0].customer).must_be_instance_of Customer
+      expect(@orders[0].fulfillment_status).must_equal @order1.fulfillment_status
+    end
+
+    it "returns accurate information about the last order" do
+      expect(@orders[-1]).must_be_instance_of Order
+      expect(@orders[-1].id).must_equal @order3.id
+      expect(@orders[-1].products).must_equal @order3.products
+      expect(@orders[-1].customer).must_be_instance_of Customer
+      expect(@orders[-1].fulfillment_status).must_equal @order3.fulfillment_status
     end
   end
 end
+
