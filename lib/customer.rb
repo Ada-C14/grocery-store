@@ -14,7 +14,7 @@ class Customer
     all_customers = CSV.read('data/customers.csv').map { |row| row.to_a }
 
     all_customers = all_customers.map do |customer|
-      id = customer[0]
+      id = customer[0].to_i
       email = customer[1]
       address = {
           street: customer[2],
@@ -28,5 +28,7 @@ class Customer
     return all_customers
   end
 
-
+  def self.find(id)
+    self.all.select { |customer| customer.id == id }.empty? ? (return nil) : (return self.all.select { |customer| customer.id == id }[0])
+  end
 end
