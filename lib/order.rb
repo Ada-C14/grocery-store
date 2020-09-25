@@ -53,18 +53,18 @@ class Order
         product_hash[name] = price.to_f
       end
 
-      @order.push(self.new(order[0].to_i, product_hash, Customer.find(order[2].to_i), order[3].to_sym)) 
+      @order.push(new(order[0].to_i, product_hash, Customer.find(order[2].to_i), order[3].to_sym)) 
     end
     return @order
   end
 
   def self.find(id)
-    return self.all.find { |order| order.id == id }
+    return all.find { |order| order.id == id }
   end
   
   # Optional - self.find_by_customer
   def self.find_by_customer(customer_id)
-    return self.all.select { |order| order.customer == customer_id }
+    return all.select { |order| order.customer == customer_id }
   end
 
 end
