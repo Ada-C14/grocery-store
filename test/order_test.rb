@@ -227,6 +227,21 @@ describe "Order Wave 2" do
   end
 
   describe "Order.find_by_customer(customer_id)" do
+    it "Returns the correct number of orders for a customer ID" do
+      expect(Order.find_by_customer(25).size).must_equal 6
+    end
 
+    it "Returns a list/array of Order instances" do
+      order = Order.find_by_customer(27)
+
+      expect(order.size).must_equal 3
+      expect(order).must_be_kind_of Array
+      expect(order[0]).must_be_kind_of Order
+      expect(order[0].customer.id).must_equal 27
+    end
+
+    it "Returns nil for a customer ID that doesn't exist" do
+      expect(Order.find_by_customer(53145)).must_be_nil
+    end
   end
 end
