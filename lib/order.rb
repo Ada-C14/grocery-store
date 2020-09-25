@@ -70,6 +70,14 @@ class Order
     return order_list
   end
 
+  def self.find(id_number)
+    order_list = Order.all
+    return order_list.find{|order| order.id == id_number}
+  end
+
+  # def self.find_by_customer(customer)
+  #
+  # end
 end
 
 # puts Order.all

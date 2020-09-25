@@ -15,9 +15,9 @@ class Customer
     customer_list = []
 
     # for rake
-    cust = CSV.read("data/customers.csv")
+    # cust = CSV.read("data/customers.csv")
 
-    # cust = CSV.read("../data/customers.csv")
+    cust = CSV.read("../data/customers.csv")
 
     cust.each do |customer|
       id_number = customer[0].to_i
@@ -37,6 +37,11 @@ class Customer
     customer_list = Customer.all
     return customer_list.find{|customer| customer.id == id_number}
   end
-end
 
-# puts Customer.all
+  def self.save(filename, new_customer)
+    CSV.open(filename, "w") do |file|
+      file << [new_customer.id, new_customer.email, new_customer.address[:street], new_customer.address[:city], new_customer.address[:state], new_customer.address[:zip]]
+    end
+    return true
+  end
+end
