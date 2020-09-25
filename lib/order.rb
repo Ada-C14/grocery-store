@@ -1,4 +1,5 @@
 require 'csv'
+require_relative 'customer'
 
 class Order
   attr_reader :id
@@ -50,7 +51,7 @@ class Order
       order[1].split(';').each do |product|
         products[product.split(':')[0]] = product.split(':')[1].to_f
       end
-      customer = order[2].to_i
+      customer = Customer.find(order[2].to_i)
       fulfillment_status = order[3].to_sym
       Order.new(id, products, customer, fulfillment_status)
     end
