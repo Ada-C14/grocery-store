@@ -48,4 +48,13 @@ class Customer
     # not parsing csv, parse arr!
     # return customer
   end
+
+  def self.save (filename, new_customer)
+    # writes new customer information into a CSV file
+    address_string = (new_customer.address[:street].to_s + "," + new_customer.address[:city] + "," + new_customer.address[:state] + "," + new_customer.address[:zip])
+    CSV.open(filename, "w") do |csv|
+      csv << [new_customer.id,new_customer.email,address_string]
+    end
+  end
 end
+
