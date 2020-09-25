@@ -60,4 +60,7 @@ class Order
     return all
   end
 
+  def self.find(id)
+    Order.all.find {|order| order.id == id}
+  end
 end
