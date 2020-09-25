@@ -12,7 +12,7 @@ class Customer
 
   def self.all
     customer_data = CSV.read("data/customers.csv").map do |info|
-      Customer.new(
+      self.new(
         info[0].to_i,
         info[1],
         {
@@ -27,7 +27,8 @@ class Customer
   end
 
   def self.find(id)
-    search = self.all.find do |info|
+    customer_data = self.all
+    search = customer_data.find do |info|
       info if info.id == id
     end
     return search
