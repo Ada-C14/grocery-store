@@ -1,14 +1,17 @@
 class Order
   attr_reader :id
-  attr_accessor :products, :customer, :status
+  attr_accessor :products, :customer, :fulfillment_status
 
   TAX_RATE = 0.075
 
-  def initialize(id, products, customer)
-    @id
-    @products
-    @customer
-    @status = :pending
+  def initialize(id, products, customer, fulfillment_status = :pending)
+    @id = id
+    @products = products
+    @customer = customer
+    @fulfillment_status = fulfillment_status
+    unless [:pending, :paid, :processing, :shipped, :complete].include? fulfillment_status
+      raise ArgumentError
+    end
   end
 
   def total
@@ -16,10 +19,10 @@ class Order
   end
 
   def add_product(product_name, price)
-    if @products.keys.inclued? product_name
+    if @products.keys.include? product_name
       raise ArgumentError
     else
-      @products << {product_name => price}
+      @products.store(product_name,price)
     end
     return @products
   end
