@@ -1,3 +1,6 @@
+require 'csv'
+require_relative 'customer'
+
 class Order
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
@@ -34,9 +37,34 @@ class Order
     @products[name] = price
     return @products
   end
-
+  
+  # Optional - remove_product
   def remove_product(rm_product)
     raise ArgumentError.new("Invalid product: #{ rm_product }") if !(@products.keys.include? (rm_product))
     return @products.slice!(rm_product)
   end
+
+  def self.all
+    @order = Array.new
+    CSV.read('../data/orders.csv').each do |order| 
+      product_hash = Hash.new
+      order[1].split(";").each do |item|
+        name, price = item.split(":")
+        product_hash[name] = price.to_f
+      end
+
+      @order.push(self.new(order[0].to_i, product_hash, Customer.find(order[2].to_i), order[3].to_sym)) 
+    end
+    return @order
+  end
+
+  def self.find(id)
+    return self.all.find { |order| order.id == id }
+  end
+  
+  # Optional - self.find_by_customer
+  def self.find_by_customer(customer_id)
+    return self.all.find { |order| order.customer == customer_id }
+  end
+
 end
