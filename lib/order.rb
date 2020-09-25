@@ -22,4 +22,20 @@ class Order
     return total.round(2)
   end
 
+  def add_product(product_name, product_price)
+    if @products.include?(product_name)
+      raise ArgumentError, "This product is already included in our inventory."
+    else
+      @products[product_name] = product_price
+    end
+  end
+
+  def remove_product(product_name, product_price)
+    if @products.include?(product_name) == false
+      raise ArgumentError, "This product is not in inventory."
+      else @products.reject! {|key| key == product_name}
+    end
+
+  end
+
 end

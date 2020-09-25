@@ -78,7 +78,7 @@ describe "Order Wave 1" do
     end
   end
 
-  xdescribe "#add_product" do
+  describe "#add_product" do
     it "Increases the number of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       before_count = products.count
@@ -105,6 +105,39 @@ describe "Order Wave 1" do
 
       expect {
         order.add_product("banana", 4.25)
+      }.must_raise ArgumentError
+
+      # The list of products should not have been modified
+      expect(order.total).must_equal before_total
+    end
+  end
+  describe "#remove_product" do
+    it "Decreases the number of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      before_count = products.count
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("banana", 1.99)
+      expected_count = before_count - 1
+      expect(order.products.count).must_equal expected_count
+    end
+
+    it "Item removed from the collection of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("cracker", 3.00)
+      expect(order.products.include?("cracker")).must_equal false
+    end
+
+    it "Raises an ArgumentError if there product does not exist to remove" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+
+      order = Order.new(1337, products, customer)
+      before_total = order.total
+
+      expect {
+        order.remove_product("orange", 4.25)
       }.must_raise ArgumentError
 
       # The list of products should not have been modified
