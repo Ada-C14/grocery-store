@@ -63,4 +63,8 @@ class Order
   def self.find(id)
     Order.all.find {|order| order.id == id}
   end
+
+  def self.find_by_customer(customer_id)
+    Order.all.find.each_with_object([]) {|order| order.customer == customer_id}
+  end
 end
