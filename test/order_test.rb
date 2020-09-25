@@ -153,7 +153,7 @@ describe "Order Wave 2" do
         expect(o.id).must_be_kind_of Integer
         expect(o.products).must_be_kind_of Hash
         expect(o.customer.id).must_be_kind_of Integer
-        expect(o.status).must_be_kind_of Symbol
+        expect(o.fulfillment_status).must_be_kind_of Symbol
       end
     end
 
@@ -217,4 +217,5 @@ describe "Order Wave 2" do
       expect(Order.find(53145)).must_be_nil
     end
   end
+
 end
