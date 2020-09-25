@@ -111,6 +111,35 @@ describe "Order Wave 1" do
       expect(order.total).must_equal before_total
     end
   end
+
+  describe "#remove_product" do
+    it "Decreases the number of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      before_count = products.count
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("banana")
+      expected_count = before_count - 1
+      expect(order.products.count).must_equal expected_count
+    end
+
+    it "Is removed from the collection of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("banana")
+      expect(order.products.include?("banana")).must_equal false
+    end
+
+    it "Raises an ArgumentError if the product is not found" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Order.new(1337, products, customer)
+
+      expect {
+        order.remove_product("sandwich")
+      }.must_raise ArgumentError
+    end
+  end
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests DONE
@@ -195,4 +224,30 @@ describe "Order Wave 2" do
       expect(Order.find(53145)).must_be_nil
     end
   end
+
+  describe "Order.find_by_customer" do
+    it "Can return multiple instances for a customer with 1+ orders" do
+      # TODO: Your test code here! DONE
+      array = Order.find_by_customer(20)
+
+      id = 100
+      products = {"Amaranth"=>83.81, "Smoked Trout"=>70.6, "Cheddar"=>5.63}
+      fulfillment_status = :pending
+
+      expect(array.length).must_equal 7 # expecting 7 order instances
+      expect(array.last.products).must_equal products
+      expect(array.last.customer).must_be_kind_of Customer
+      expect(array.last.fulfillment_status).must_equal fulfillment_status
+
+      expect(array).must_be_kind_of Array
+    end
+
+    it "Returns an error for an id that doesn't exist" do
+      # TODO: Your test code here! DONE
+      expect {
+        Order.find_by_customer(2383823)
+      }.must_raise ArgumentError
+    end
+  end
+
 end

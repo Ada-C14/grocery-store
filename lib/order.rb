@@ -28,6 +28,11 @@ class Order
     @products[name] = price
   end
 
+  def remove_product(name)
+    raise ArgumentError.new("Product not found") if @products.has_key?(name) == false
+    @products.delete_if {|key, value| key == name }
+  end
+
   def self.all
     order_array = []
 
@@ -44,9 +49,7 @@ class Order
     return order_array
   end
 
-
-  def self.find(id_handed)
-
+  def self.find(id_handed) # instructions were to find AN instance so I did that, but in the optional find_by_customer, the method finds all
     self.all.find do |order_instance|
       if order_instance.id == id_handed
         return order_instance
@@ -54,4 +57,37 @@ class Order
     end
   end
 
+  def self.find_by_customer(customer_id)
+    order_instance_array = []
+    self.all.find_all do |order_instance|
+      if order_instance.customer.id == customer_id
+        order_instance_array << order_instance
+      end
+    end
+    if order_instance_array.empty? == true
+      raise ArgumentError.new("Customer id not found")
+    else
+    return order_instance_array
+    end
+  end
+
 end
+
+# testee = Customer.new(1000, "a@a.org", {
+#     street: "123 Main",
+#     city: "Seattle",
+#     state: "WA",
+#     zip: "98101"
+# })
+# test = Order.new(101, { "banana" => 1.99, "cracker" => 3.00 }, testee,:pending)
+# # p test.products
+# # p test.remove_product("banana")
+
+# example = Order.find_by_customer(20)
+# pp example
+# puts ""
+# pp example.length
+# # p Order.find_by_customer(1001)
+#
+# example2 = Order.find_by_customer(2023832)
+# pp example2
