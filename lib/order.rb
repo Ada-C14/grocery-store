@@ -58,7 +58,6 @@ class Order
         info[-1].to_sym
         )
     end
-    # p order_data
     return order_data
   end
 
