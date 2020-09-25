@@ -68,4 +68,3 @@ class Order
     return order_info.find_all { |order| order.customer.id == customer}
   end
 end
-
