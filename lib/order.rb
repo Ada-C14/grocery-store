@@ -1,5 +1,6 @@
 class Order
   attr_reader :id
+  attr_accessor :products, :customer, :status
 
   TAX_RATE = 0.075
 
@@ -24,8 +25,11 @@ class Order
   end
 
   def remove_product(product_name)
-
-    @products.delete(product_name)
-    return @products
+    if @products.keys.include? product_name
+      @products.delete(product_name)
+      return @products
+    else
+      raise ArgumentError
+    end
   end
 end
