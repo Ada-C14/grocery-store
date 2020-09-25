@@ -3,6 +3,7 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
 require_relative '../lib/customer'
+require_relative '../lib/order'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
@@ -88,6 +89,24 @@ describe "Customer Wave 2" do
 
     it "Returns nil for a customer that doesn't exist" do
       expect(Customer.find(53145)).must_be_nil
+    end
+  end
+end
+
+xdescribe "Wave 3" do
+  describe "Customer.save" do
+    it "create new line" do
+      filename = 'data/new_customers_list.csv'
+      id_test = 36
+      email_test = "jasylop@gmail.com"
+      address_test = { street: "10312 Hipkins Rd",
+                  city: "Lakewood",
+                  state: "WA",
+                  zip: "98498" }
+
+      new_customer = Customer.new(id_test, email_test, address_test)
+
+      Customer.save(filename, new_customer)
     end
   end
 end
