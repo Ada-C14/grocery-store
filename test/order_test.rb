@@ -270,7 +270,5 @@ describe "Order Wave 2" do
       expect(@orders[-1].fulfillment_status).must_equal @order3.fulfillment_status
     end
   end
-
-
 end
 

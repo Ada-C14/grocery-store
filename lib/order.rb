@@ -55,10 +55,8 @@ class Order
 
   def self.all
 
-    # for rake
     orders = CSV.read("data/orders.csv")
     order_list = []
-    # orders = CSV.read("../data/orders.csv")
 
     orders.each do |order|
       id_number = order[0].to_i
