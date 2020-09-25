@@ -217,5 +217,24 @@ describe "Order Wave 2" do
       expect(Order.find(53145)).must_be_nil
     end
   end
+  describe "Order.find_by_customer" do
+    it "Returns an array" do
+      #act
+      orders = Order.find_by_customer(20)
+      expect(orders).must_be_kind_of Array
+    end
 
+    it "Has matching customer id numbers" do
+      orders = Order.find_by_customer(20)
+      orders.each do |order|
+        customer_id = 20
+        expect(order.customer.id).must_equal customer_id
+      end
+    end
+
+    it "Has the same length as number of customer orders" do
+      expect(Order.find_by_customer(20).length).must_equal 7
+    end
+  end
 end
+
