@@ -64,7 +64,8 @@ class Order
 
   # optional
   # returns list of order objects that match customer id
-  def find_by_customer(customer_id)
-    Order.all.filter { |order| order.customer.id == customer_id}
+  def self.find_by_customer(customer_id)
+    orders = Order.all.filter { |order| order.customer.id == customer_id}
+    orders.empty? ? nil : orders
   end
 end
