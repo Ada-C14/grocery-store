@@ -35,5 +35,21 @@ class Order
     @products[product_name] = price
   end
 
+  def remove_product(product_name)
+    # initial count of products
+    before_count = @products.count
+
+    # creates a new hash selecting all product except for the one to remove
+    new_list = @products.select { |product, cost| product != product_name}
+
+    # the new list count must be one less than the initial count
+    # if not, raises argument error
+    if new_list.count == before_count - 1
+      @products = new_list
+    else
+      raise ArgumentError.new("#{product_name} was not found!")
+    end
+  end
+
 end
 

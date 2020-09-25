@@ -130,6 +130,13 @@ describe "Order Wave 1" do
       order.remove_product("banana")
       expect(order.products.include?("banana")).must_equal false
     end
+
+    it "Raises an ArgumentError if no product with that name was found" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Order.new(1337, products, customer)
+
+      expect {order.remove_product("orange")}.must_raise ArgumentError
+    end
   end
 end
 
