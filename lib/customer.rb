@@ -19,5 +19,14 @@ class Customer
   def self.find(id)
     return self.all.find { |customer| customer.id == id }
   end
-
+  
+  # Optional - save
+  def self.save(filename, new_customer)
+    @new_customer = new_customer
+    a_customer = [@new_customer.id, @new_customer.email, @new_customer.address[:street], @new_customer.address[:city], @new_customer.address[:state], @new_customer.address[:zip]]
+    CSV.open(filename, 'w', force_quotes: false) do |csv|
+      csv << a_customer
+    end
+    return true
+  end
 end
