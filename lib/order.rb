@@ -40,8 +40,8 @@ class Order
   
   # Optional - remove_product
   def remove_product(rm_product)
-    raise ArgumentError.new("Invalid product: #{ rm_product }") if !(@products.keys.include? (rm_product))
-    return @products.slice!(rm_product)
+    raise ArgumentError.new("Invalid product: #{ rm_product }") if !(@products.key? (rm_product))
+    return @products.reject! { |name, price| name == rm_product } 
   end
 
   def self.all
