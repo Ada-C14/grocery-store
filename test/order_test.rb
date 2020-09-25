@@ -174,8 +174,25 @@ describe "Order Wave 2" do
       expect(order.fulfillment_status).must_equal fulfillment_status
     end
 
-    xit "Returns accurate information about the last order" do
-      # TODO: Your test code here!
+    it "Returns accurate information about the last order" do
+
+      id = 100
+      products = {
+          "Amaranth" => 83.81,
+          "Smoked Trout" => 70.6,
+          "Cheddar" => 5.63
+      }
+      # customer = Customer.find(20)
+      fulfillment_status = :pending
+      order = Order.all.last
+
+      expect(order.id).must_equal id
+      expect(order.products).must_equal products
+      # okay but why doesnt this work
+      # expect(order.customer).must_equal customer
+      expect(order.customer).must_be_instance_of Customer
+      expect(order.customer.id).must_equal 20
+      expect(order.fulfillment_status).must_equal fulfillment_status
     end
   end
 
