@@ -159,13 +159,11 @@ describe "Order Wave 2" do
       fulfillment_status = :pending
 
       last = Order.all.last
-
       expect(last.id).must_equal id
       expect(last.products).must_equal products
       expect(last.customer).must_be_kind_of Customer
       expect(last.customer.id).must_equal customer_id
       expect(last.fulfillment_status).must_equal fulfillment_status
-
     end
   end
 
@@ -188,6 +186,36 @@ describe "Order Wave 2" do
       # TODO: Your test code here!
       order = Order.find(3439483)
       expect(order).must_be_nil
+    end
+  end
+
+  describe "Order.find_by_customer" do
+    it "returns an array for order by specific customer id" do
+      orders = Order.find_by_customer(31)
+
+      expect(orders).must_be_kind_of Array
+
+      orders.each do |order|
+        expect(order).must_be_kind_of Order
+        expect(order.customer.id).must_equal 31
+      end
+    end
+
+    it "returns accurate information about last order" do
+      products = {"Aniseed" => 25.58, "Hummus" => 13.83}
+      orders = Order.find_by_customer(31)
+      expect(orders.last.products).must_equal products
+    end
+
+    it "returns accurate info about first order" do
+      products = {"Pumpkin Seed" => 24.63}
+      orders = Order.find_by_customer(31)
+      expect(orders.first.products).must_equal products
+    end
+
+    it "returns nil for customer id that doesn't exist" do
+      orders = Order.find_by_customer(29384)
+      expect(orders).must_be_nil
     end
   end
 end
