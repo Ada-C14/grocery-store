@@ -14,4 +14,33 @@ class Customer
     @email = email
     @address = address
   end
+
+  # Use a CSV file for loading data (Wave 2)
+  def self.all
+    all_customers = CSV.open('data/customers.csv').map do |row|
+
+    id = row[0].to_i
+    email =  row[1]
+
+    address = {
+        street: row[2],
+        city: row[3],
+        state: row[4],
+        zip: row[5]
+    }
+    new_customer = self.new(id, email, address)
+    end
+    return all_customers
+  end
+
+  # Returns instance of Customer that matches id argument (Wave 2)
+  def self.find(id)
+    customers = self.all
+    customer_find = customers.find do |customer|
+      customer.id == id
+    end
+    # returns nil if not found
+    return customer_find
+  end
+
 end
