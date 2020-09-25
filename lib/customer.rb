@@ -33,4 +33,16 @@ class Customer
   def self.find(id)
     Customer.all.find {|customer| customer.id == id}
   end
+
+  # optional
+  def self.save(filename, new_customer)
+    id = new_customer.id
+    email = new_customer.email
+    address = new_customer.address.values
+    customer_array = [id, email, address].flatten
+    CSV.open(filename, 'a') do |csv|
+      csv << customer_array
+    end
+  end
 end
+
