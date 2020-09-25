@@ -45,4 +45,26 @@ class Order
     end
     return @products
   end
+
+  def self.all
+    orders = CSV.read('data/orders.csv').each do |row|
+      order_info = self.new(row[0], row[1], Customer.find(row[2]), row[3])
+
+      orders << order_info
+    end
+    return orders
+  end
+
+  def self.find(id)
+    all_orders = self.all
+    all_orders.each do |order|
+      if id == order.id
+        return order
+      end
+    end
+    return nil
+  end
+
+
 end
+
