@@ -72,22 +72,3 @@ class Order
   end
 
 end
-
-# testee = Customer.new(1000, "a@a.org", {
-#     street: "123 Main",
-#     city: "Seattle",
-#     state: "WA",
-#     zip: "98101"
-# })
-# test = Order.new(101, { "banana" => 1.99, "cracker" => 3.00 }, testee,:pending)
-# # p test.products
-# # p test.remove_product("banana")
-
-# example = Order.find_by_customer(20)
-# pp example
-# puts ""
-# pp example.length
-# # p Order.find_by_customer(1001)
-#
-# example2 = Order.find_by_customer(2023832)
-# pp example2

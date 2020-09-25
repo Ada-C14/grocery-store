@@ -207,14 +207,38 @@ describe "Order Wave 2" do
       # TODO: Your test code here! DONE
             first = Order.find(1)
 
-            expect(first).must_be_kind_of Order
-            expect(first.id).must_equal 1
+      products = {
+          "Lobster" => 17.18,
+          "Annatto seed" => 58.38,
+          "Camomile" => 83.21
+      }
+      customer_id = 25
+      fulfillment_status = :complete
+
+      expect(first.products).must_equal products
+      expect(first.customer).must_be_kind_of Customer
+      expect(first.customer.id).must_equal customer_id
+      expect(first.fulfillment_status).must_equal fulfillment_status
+      expect(first).must_be_kind_of Order
+      expect(first.id).must_equal 1
     end
 
     it "Can find the last order from the CSV" do
       # TODO: Your test code here! DONE
       last = Order.find(100)
 
+      products = {
+          "Amaranth" => 83.81,
+          "Smoked Trout" => 70.6,
+          "Cheddar" => 5.63
+      }
+      customer_id = 20
+      fulfillment_status = :pending
+
+      expect(last.products).must_equal products
+      expect(last.customer).must_be_kind_of Customer
+      expect(last.customer.id).must_equal customer_id
+      expect(last.fulfillment_status).must_equal fulfillment_status
       expect(last).must_be_kind_of Order
       expect(last.id).must_equal 100
     end
@@ -235,10 +259,9 @@ describe "Order Wave 2" do
       fulfillment_status = :pending
 
       expect(array.length).must_equal 7 # expecting 7 order instances
-      expect(array.last.products).must_equal products
+      expect(array.last.products).must_equal products # check that it is loading instances as expected, by checking last instance details...
       expect(array.last.customer).must_be_kind_of Customer
       expect(array.last.fulfillment_status).must_equal fulfillment_status
-
       expect(array).must_be_kind_of Array
     end
 
