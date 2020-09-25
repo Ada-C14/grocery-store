@@ -58,15 +58,26 @@ class Order
         info[-1].to_sym
         )
     end
+    # p order_data
     return order_data
   end
 
   def self.find(id)
     order_data = self.all
-    search = order_data.find do |info|
+    order_by_id = order_data.find do |info|
       info if info.id == id
     end
-    return search
+    return order_by_id
+  end
+
+  def self.find_by_customer(customer_id)
+    order_data = self.all
+    orders_by_customer = order_data.select do |info|
+      info if info.customer.id == customer_id
+    end
+
+    return nil if orders_by_customer.empty?
+    return orders_by_customer
   end
 
 
