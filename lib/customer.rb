@@ -32,4 +32,19 @@ class Customer
     customer_found = self.all.select { |customer| customer.id == id }
     customer_found.empty? ? (return nil) : (return customer_found[0])
   end
+
+  def self.save(filename, new_customer)
+    new_customer = [
+        new_customer.id,
+        new_customer.email,
+        new_customer.address.values[0],
+        new_customer.address.values[1],
+        new_customer.address.values[2],
+        new_customer.address.values[3]
+    ]
+
+    CSV.open(filename, "w") { |csv| csv << new_customer }
+
+    return true
+  end
 end
