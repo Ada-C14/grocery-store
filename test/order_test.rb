@@ -220,4 +220,33 @@ describe "Order Wave 2" do
       expect(Order.find(53145)).must_be_nil
     end
   end
+
+  describe "Order.find_by_customer" do
+    it "Can find the orders by customer#1 from the CSV" do
+      first = Order.find_by_customer(1)
+
+      expect(first).must_be_kind_of Array
+      first.each do |order|
+        expect(order).must_be_kind_of Order
+        expect(order.product).must_equal [{"Wholewheat flour"=>0.95}]
+        expect(order.customer).must_be_kind_of Customer
+        expect(order.customer.id).must_equal 1
+      end
+    end
+
+    it "Can find the orders by customer#35 from the CSV" do
+      last = Order.find_by_customer(35)
+
+      expect(last).must_be_kind_of Array
+      last.each do |order|
+        expect(order).must_be_kind_of Order
+        expect(order.customer).must_be_kind_of Customer
+        expect(order.customer.id).must_equal 35
+      end
+    end
+
+    it "Returns nil for an customer that doesn't exist" do
+      expect(Order.find_by_customer(53145)).must_be_empty
+    end
+  end
 end
