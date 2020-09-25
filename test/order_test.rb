@@ -183,4 +183,20 @@ describe "Order Wave 2" do
       expect(Order.find(956)).must_be_nil
     end
   end
+
+  describe "Order.find_by_customer" do
+
+    it "returns an existing order by given customer id" do
+      customer_id = Customer.all.first.id
+
+      result = Order.find_by_customer(customer_id)
+
+      expect(result).must_be_kind_of Order
+      expect(result.customer.id).must_equal customer_id
+    end
+
+    it "returns nil for a non existent customer id" do
+      expect(Order.find_by_customer(89)).must_be_nil
+    end
+  end
 end

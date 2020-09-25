@@ -74,7 +74,7 @@ class Order
   def self.find_by_customer(customer_id)
     all_orders = self.all
     all_orders.each do |order|
-    if customer_id == order.customer
+    if customer_id == order.customer.id
       return order
     end
     end
