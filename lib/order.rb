@@ -31,4 +31,14 @@ class Order
     return @products
   end
 
+  def remove_product(product_name)
+    if @products.has_key?(product_name)
+      @products.delete(product_name)
+    else
+      raise ArgumentError.new("Product not found!")
+    end
+
+    return @products
+  end
+
 end
