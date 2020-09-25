@@ -41,6 +41,9 @@ class Order
       customer_id = order[2].to_i
       status = order[3].to_sym
 
+      # HANDLING CUSTOMER ID
+      customer = Customer.all.find { |customer| customer.id == customer_id }
+
       # HANDLING PRODUCTS
       # make a split array by ';' ["Lobster:17.18", "Annatto seed:58.38", "Camomile:83.21"]
       products_temp = order[1].split(';')
@@ -52,7 +55,7 @@ class Order
         product_array << product
       end
 
-      # store those babies in a hash
+      # store those babies in a hash {"Lobster"=>17.18, "Annatto seed"=>58.38, "Camomile"=>83.21}
       product_hash = {}
       product_array.each do |product|
         product_hash[product[0]] = product[1].to_f
@@ -60,12 +63,15 @@ class Order
 
       products = product_hash
 
-      all_orders << Order.new(id, products, customer_id, status)
+      all_orders << Order.new(id, products, customer, status)
 
     end
     return all_orders
   end
 
-end
+  def self.find(id)
+    order = self.all.find { |order| order.id == id }
+    return order
+  end
 
-p Order.all
+end

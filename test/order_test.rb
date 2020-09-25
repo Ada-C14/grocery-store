@@ -126,8 +126,8 @@ describe "Order Wave 2" do
 
         expect(order.id).must_be_kind_of Integer
         expect(order.products).must_be_kind_of Hash
-        expect(order.customer_id).must_be_kind_of Integer
-        expect(order.status).must_be_kind_of Symbol
+        expect(order.customer.id).must_be_kind_of Integer
+        expect(order.fulfillment_status).must_be_kind_of Symbol
       end
     end
 
@@ -159,7 +159,7 @@ describe "Order Wave 2" do
       expect(last.products["Smoked Trout"]).must_equal 70.6
       expect(last.products["Cheddar"]).must_equal 5.63
       expect(last.customer.id).must_equal 20
-      expect(last.status).must_equal :pending
+      expect(last.fulfillment_status).must_equal :pending
 
     end
   end
@@ -169,11 +169,11 @@ describe "Order Wave 2" do
       first = Order.find(1)
 
       expect(first).must_be_kind_of Order
-      expect(first).id.must_equal 1
+      expect(first.id).must_equal 1
     end
 
     it "Can find the last order from the CSV" do
-      last = Customer.find(100)
+      last = Order.find(100)
 
       expect(last).must_be_kind_of Order
       expect(last.id).must_equal 100
