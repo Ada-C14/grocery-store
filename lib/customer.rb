@@ -1,8 +1,4 @@
 require 'csv'
-# headers = ['id','Email','Address 1', 'City', 'State', 'Zip Code']
-# CSV.open('data/customers.csv', 'a+', {force_quotes: true}) do |csv|
-#   csv << headers if csv.count.eql? 0
-# end
 
 class Customer
   attr_accessor :email, :address
@@ -34,7 +30,7 @@ class Customer
   end
 
   def self.find(id)
-    self.all.find {|customer| customer.id == id}
+    Customer.all.find {|customer| customer.id == id}
   end
 
 end

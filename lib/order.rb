@@ -1,4 +1,5 @@
 require_relative './customer'
+require 'csv'
 
 class Order
   attr_reader :id, :products, :customer, :fulfillment_status
@@ -35,4 +36,28 @@ class Order
     end
 
   end
+
+  def self.all
+    all = []
+
+    csv = CSV.read('data/orders.csv')
+    csv.each do |data|
+      id = data[0].to_i
+
+      products = {}
+      product_split = data[1].split(%r{;\s*})
+      product_split.each do |pair|
+        key, value = pair.split(/:/)
+        products[key] = value.to_f
+      end
+
+      customer = Customer.find(data[2].to_i)
+
+      status = data[3].to_sym
+
+      all << Order.new(id, products, customer, status)
+    end
+    return all
+  end
+
 end
