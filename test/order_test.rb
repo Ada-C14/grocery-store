@@ -64,6 +64,7 @@ describe "Order Wave 1" do
   describe "#total" do
     it "Returns the total from the collection of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
+
       order = Order.new(1337, products, customer)
 
       expected_total = 5.36
