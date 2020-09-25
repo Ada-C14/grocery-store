@@ -56,6 +56,7 @@ class Order
       products = to_hash(order[1])
       customer = Customer.find(order[2].to_i)
       status = order[3].to_sym
+
       orders << Order.new(id, products, customer, status)
       #another way of doing the above
       #orders << Order.new(order[0].to_i, to_hash(order[1]), Customer.find(order[2].to_i), order[3].to_sym)
@@ -72,6 +73,5 @@ class Order
   def self.find_by_customer(customer_id)
     orders_of_customer = all.find_all {|order| order.customer.id == customer_id}
     return orders_of_customer
-
   end
 end

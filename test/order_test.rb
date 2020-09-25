@@ -221,6 +221,8 @@ describe "Order Wave 2" do
       found_list = Order.find_by_customer(10)
 
       expect(found_list.length).must_equal 4
+      expect(found_list).must_be_kind_of Array
+
       found_list.each do |order|
         expect(order).must_be_kind_of Order
         expect(order.fulfillment_status).must_be_kind_of Symbol
@@ -239,7 +241,7 @@ describe "Order Wave 2" do
         })
       found_list = Order.find_by_customer(10)
 
-      chosen_product = {"Ricemilk" =>5.07}
+      chosen_product = {"Ricemilk" => 5.07}
 
       chosen_order = Order.new(16, chosen_product, chosen_customer, :processing)
 

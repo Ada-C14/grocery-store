@@ -18,7 +18,10 @@ class Customer
       id = customer[0].to_i
       email = customer[1]
       #delivery_address is a hash
-      address = {street: customer[2], city: customer[3], state: customer[4] , zip: customer[5]  }
+      address = {street: customer[2],
+                 city: customer[3],
+                 state: customer[4] ,
+                 zip: customer[5]  }
       customer_array << Customer.new(id, email, address)
     end
     return customer_array # => array of all the customer instances
@@ -31,8 +34,16 @@ class Customer
 
   def self.save(filename, new_customer)
     CSV.open(filename, "a") do |csv|
-      csv << [new_customer.id, new_customer.email, new_customer.address[:street], new_customer.address[:city], new_customer.address[:state], new_customer.address[:zip]]
+      csv << [new_customer.id,
+              new_customer.email,
+              new_customer.address[:street],
+              new_customer.address[:city],
+              new_customer.address[:state],
+              new_customer.address[:zip]]
     end
   end
 
 end
+
+#comments : I can improve format and readability. It's better to go vertical than horizontal!
+# use more words instead of numbers. .last instead of (length-1)
