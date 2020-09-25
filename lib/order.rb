@@ -15,7 +15,7 @@ class Order
     @customer = customer
     @fulfillment_status = fulfillment_status
 
-    raise ArgumentError.new("Invalid fulfillment status.") if [:pending, :paid, :processing, :shipped, :complete].include?(fulfillment_status) != true
+    raise ArgumentError.new("Invalid fulfillment status. #{fulfillment_status}") unless [:pending, :paid, :processing, :shipped, :complete].include?(fulfillment_status)
   end
 
   def total
@@ -47,8 +47,14 @@ class Order
   end
 
   def self.all
-    orders = CSV.read('data/orders.csv').each do |row|
-      order_info = self.new(row[0], row[1], Customer.find(row[2]), row[3])
+    orders =[]
+    CSV.read('data/orders.csv').each do |row|
+      product_hash = {}
+      row[1].split(";").each do |item|
+        product, price = item.split(":")
+        product_hash[product] = price.to_f
+      end
+      order_info = self.new(row[0].to_i, product_hash, Customer.find(row[2].to_i), row[3].to_sym)
 
       orders << order_info
     end
@@ -65,6 +71,15 @@ class Order
     return nil
   end
 
+  def self.find_by_customer(customer_id)
+    all_orders = self.all
+    all_orders.each do |order|
+    if customer_id == order.customer
+      return order
+    end
+    end
+    return nil
+  end
 
 end
 

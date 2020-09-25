@@ -12,7 +12,8 @@ class Customer
   end
 
   def self.all
-    customers = CSV.read('data/customers.csv').each do |row|
+    customers = []
+    CSV.read('data/customers.csv').each do |row|
       address = {
           street: row[2],
           city: row[3],
