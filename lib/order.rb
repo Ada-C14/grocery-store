@@ -33,7 +33,7 @@ class Order
   end
 
   def add_product(name, price)
-    raise ArgumentError.new("Invalid product: #{ name }") if @products.keys.include? (name)
+    raise ArgumentError.new("Invalid product: #{ name }") if @products.key? (name)
     @products[name] = price
     return @products
   end
@@ -45,15 +45,13 @@ class Order
   end
 
   def self.all
-    @order = Array.new
-    CSV.read('data/orders.csv').each do |order| 
+    @order = CSV.read('data/orders.csv').map do |order| 
       product_hash = Hash.new
       order[1].split(";").each do |item|
         name, price = item.split(":")
         product_hash[name] = price.to_f
       end
-
-      @order.push(new(order[0].to_i, product_hash, Customer.find(order[2].to_i), order[3].to_sym)) 
+      new(order[0].to_i, product_hash, Customer.find(order[2].to_i), order[3].to_sym)
     end
     return @order
   end
