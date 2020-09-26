@@ -26,14 +26,21 @@ class Order
   end
 
   def add_product(name, price)
-    raise ArgumentError.new("We already have that product name") if @products.has_key?(name)
-    @products[name] = price
+    if @products.key?(name)
+      raise ArgumentError.new("We already have the product name")
+    else
+      return @products[name] = price
+    end
   end
 
   #optional remove_product method
   def remove_product(name)
-    raise ArgumentError.new("No product with that name was found") unless @products.has_key?(name)
-    return @products.delete(name)
+
+    if !@products.key?(name)
+      raise ArgumentError.new("No product with that name was found")
+    else
+      return @products.delete(name)
+    end
   end
 
   def self.to_hash(products)
@@ -49,19 +56,15 @@ class Order
 
   # returns an array of all the order instance in the csv file
   def self.all
-    orders = []
-    orders_data = CSV.read('data/orders.csv').map {|order| order.to_a}
-    orders_data.each do |order|
+    all_orders = CSV.read('data/orders.csv').map do |order|
       id = order[0].to_i
       products = to_hash(order[1])
       customer = Customer.find(order[2].to_i)
       status = order[3].to_sym
 
-      orders << Order.new(id, products, customer, status)
-      #another way of doing the above
-      #orders << Order.new(order[0].to_i, to_hash(order[1]), Customer.find(order[2].to_i), order[3].to_sym)
+      Order.new(id, products, customer, status)
     end
-    return orders
+    return all_orders
   end
 
   def self.find(id)

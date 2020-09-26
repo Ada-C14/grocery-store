@@ -12,19 +12,20 @@ class Customer
 
   # return a collection of Customer instances, representing all of the Customers describe in the CSV file
   def self.all
-    customer_array = []
-    customer_data = CSV.read('data/customers.csv').map { |customer| customer.to_a }
-    customer_data.each do |customer|
+
+    # if each is used, need to store the accessed/transformed element somewhere.
+    # if map is used, will transform and make NEW array. Just need a variable to store it
+    all_customers = CSV.read('data/customers.csv').map do |customer|
       id = customer[0].to_i
       email = customer[1]
       #delivery_address is a hash
       address = {street: customer[2],
                  city: customer[3],
-                 state: customer[4] ,
-                 zip: customer[5]  }
-      customer_array << Customer.new(id, email, address)
+                 state: customer[4],
+                 zip: customer[5] }
+      Customer.new(id, email, address)
     end
-    return customer_array # => array of all the customer instances
+    return all_customers
   end
 
   # returns matching customer instance as the input
