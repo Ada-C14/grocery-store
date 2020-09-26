@@ -1,6 +1,6 @@
 require "CSV"
 
-ORDERS = CSV.read("data/orders.csv").map { |row| row.to_a }
+# ORDERS = CSV.read("data/orders.csv").map { |row| row.to_a }
 
 class Order
 
@@ -55,19 +55,20 @@ class Order
   end
 
   def self.all
-    all_orders =[]
-    ORDERS.each do |order|
-      new_id = order[0].to_i
-      new_products = parse_products(order[1])
-      new_customer = Customer.find(order[2].to_i)
-      new_fulfillment_status = order[3].to_sym
-      all_orders << Order.new(new_id, new_products, new_customer, new_fulfillment_status)
-    end
+    all_orders = CSV.read("data/orders.csv").map { |order| Order.new(order[0].to_i,
+                parse_products(order[1]),
+                Customer.find(order[2].to_i),
+                order[3].to_sym) }
     return all_orders
   end
 
   def self.find(id)
     return Order.all.find { |order| order.id == id }
+  end
+
+  def self.find_by_customer(customer_id)
+    customer_orders = Order.all.select { |order| order.customer.id == customer_id }
+    customer_orders.length > 0 ? customer_orders : nil
   end
 
 end
