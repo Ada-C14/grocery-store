@@ -1,3 +1,7 @@
+require "CSV"
+
+ORDERS = CSV.read("data/orders.csv").map { |row| row.to_a }
+
 class Order
 
   def initialize(id, products, customer, fulfillment_status = :pending)
@@ -12,10 +16,7 @@ class Order
     @fulfillment_status = fulfillment_status
   end
 
-  # id, products, and customer are not writable
-  attr_reader :id, :products, :customer
-
-  attr_accessor :fulfillment_status
+  attr_reader :id, :products, :customer, :fulfillment_status
 
   def total
     if products.length == 0
@@ -41,6 +42,28 @@ class Order
     end
     products.delete(product_name)
     return products
+  end
+
+  def self.parse_products(product_list)
+    product_hash = {}
+    separate_products = product_list.split(";")
+    separate_products.each do |product_blob|
+      item_and_price = product_blob.split(":")
+      product_hash[item_and_price[0]] = item_and_price[1].to_f
+    end
+    return product_hash
+  end
+
+  def self.all
+    all_orders =[]
+    ORDERS.each do |order|
+      new_id = order[0].to_i
+      new_products = parse_products(order[1])
+      new_customer = Customer.find(order[2].to_i)
+      new_fulfillment_status = order[3].to_sym
+      all_orders << Order.new(new_id, new_products, new_customer, new_fulfillment_status)
+    end
+    return all_orders
   end
 
 end
