@@ -1,7 +1,5 @@
 require "CSV"
 
-CUSTOMERS = CSV.read("data/customers.csv").map { |row| row.to_a }
-
 class Customer
 
   def initialize(id, email, address)
@@ -15,23 +13,38 @@ class Customer
   attr_accessor :email, :address
 
   def self.all
-    all_customers = []
-    CUSTOMERS.each do |customer|
-      new_id = customer[0].to_i
-      new_email = customer[1]
-      new_address = {
-          street: customer[2],
-          city: customer[3],
-          state: customer[4],
-          zip: customer[5]
-      }
-      all_customers << Customer.new(new_id, new_email, new_address)
-    end
+    all_customers = CSV.read("data/customers.csv").map { |customer|
+      Customer.new(customer[0].to_i, customer[1], {
+            street: customer[2],
+            city: customer[3],
+            state: customer[4],
+            zip: customer[5]
+        }
+      )
+    }
     return all_customers
   end
 
   def self.find(id)
     return self.all.find { |customer| customer.id == id }
+  end
+
+  def self.save(filename, new_customer)
+    customer_array = [
+        "#{new_customer.id}",
+        "#{new_customer.email}",
+        "#{new_customer.address[:street]}",
+        "#{new_customer.address[:city]}",
+        "#{new_customer.address[:state]}",
+        "#{new_customer.address[:zip]}"
+    ]
+    CSV.open(filename, "a") do |file|
+      file << customer_array
+    end
+  #    CSV.open("planets_data.csv", "w") do |file|
+  #     planets.each do |planet|
+  #       file << planet
+  #     end
   end
 
 end
