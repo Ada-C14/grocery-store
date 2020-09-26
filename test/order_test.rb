@@ -149,7 +149,7 @@ xdescribe "Order Wave 1" do
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
       orders = Order.all
@@ -161,7 +161,7 @@ xdescribe "Order Wave 2" do
         expect(o.id).must_be_kind_of Integer
         expect(o.products).must_be_kind_of Hash
         expect(o.customer).must_be_kind_of Customer
-        expect(o.fulfillment_status).must_equal Symbol
+        expect(o.fulfillment_status).must_be_kind_of Symbol
       end
     end
 
