@@ -25,4 +25,10 @@ class Customer
     return cust_collection
   end
 
+  def self.find(id)
+    return self.all.find {|customer| customer.id == id }
+  end
+
 end
+
+
