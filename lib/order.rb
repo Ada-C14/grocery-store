@@ -5,8 +5,6 @@ class Order
   attr_accessor(:products, :customer)
 
   VALID_STATUS = %i[pending paid processing shipped complete].freeze # add tips symbol step 1
-  ORDER_DATA = CSV.read('../data/orders.csv', headers:true).map { |row| row.to_h }
-
 
   def initialize(id, products, customer, fulfillment_status = :pending) # add tips
     @id = id
@@ -38,8 +36,20 @@ class Order
       raise ArgumentError, "#{product_name} is already in products list"
     else
 
-      @products[product_name]= price
+      @products[product_name] = price
     end
+  end
+
+  def product_hash(products)
+    
+  end
+
+  def self.all
+    orders_data = CSV.read('data/orders.csv', headers:true).map { |row| row.to_h }
+    orders = orders_data.map do |order|
+      Order.new(order['id'].to_i, order['products'], order['customer'], order['fulfillment_status'].to_sym)
+    end
+    orders
   end
 
 end

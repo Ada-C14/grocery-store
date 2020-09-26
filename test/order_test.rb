@@ -117,7 +117,17 @@ end
 xdescribe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
+      orders = Order.all
+
+      expect(orders.length).must_equal 35
+      orders.each do |c|
+        expect(c).must_be_kind_of Order
+
+        expect(c.id).must_be_kind_of Integer
+        expect(c.products).must_be_kind_of String
+        expect(c.customer_id).must_be_kind_of Customer
+        expect(c.status).must_be_kind_of Symbol # to check if the test passes wrong input
+      end
     end
 
     it "Returns accurate information about the first order" do
@@ -141,7 +151,13 @@ xdescribe "Order Wave 2" do
     end
 
     it "Returns accurate information about the last order" do
-      # TODO: Your test code here!
+      order = Order.all.last
+
+      expect(order.id).must_equal 100
+      expect(order.products).must_equal {Amaranth: 83.81,Smoked Trout: 70.6,Cheddar: 5.63}
+      expect(order.customer).must_be_kind_of Customer
+      expect(order.customer.id).must_equal customer_id
+      expect(order.fulfillment_status).must_equal fulfillment_status
     end
   end
 
