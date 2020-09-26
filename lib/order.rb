@@ -1,4 +1,5 @@
 require 'csv'
+require_relative 'customer'
 
 VALID_STATUS = [:pending, :paid, :processing, :shipped, :complete]
 TAX = 0.075
@@ -43,7 +44,22 @@ class Order
   def self.get_products_hash(products)
     regex = /([\w\s]+):((\d*[.])?\d+)/
 
-    return products.scan(regex).map { |product, price| [ product.to_s, price ] }.to_h
+    return products.scan(regex).map { |product, price| [ product.to_s, price.to_f ] }.to_h
+  end
+
+  def self.all
+    keys = [:id, :products, :customer, :fulfillment_status]
+
+    return CSV.read('data/orders.csv').map do |order_array|
+      order = keys.zip(order_array).to_h
+
+      Order.new(
+            order[:id].to_i,
+            Order.get_products_hash(order[:products]),
+            Customer.find(order[:customer].to_i),
+            order[:fulfillment_status].to_sym
+      )
+    end
   end
 
   def self.find(id)
