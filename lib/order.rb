@@ -1,12 +1,11 @@
 require "CSV"
 
-# ORDERS = CSV.read("data/orders.csv").map { |row| row.to_a }
-
 class Order
 
   def initialize(id, products, customer, fulfillment_status = :pending)
+
     legal_fulfillment_statuses = [:pending, :paid, :processing, :shipped, :complete]
-    if !legal_fulfillment_statuses.include?(fulfillment_status)
+    unless legal_fulfillment_statuses.include?(fulfillment_status)
       raise ArgumentError.new("invalid fulfillment status")
     end
 
@@ -37,7 +36,7 @@ class Order
   end
 
   def remove_product(product_name, price)
-    if !products.keys.any?(product_name)
+    unless products.keys.any?(product_name)
       raise ArgumentError.new("This order does not contain #{product_name}")
     end
     products.delete(product_name)
@@ -47,8 +46,8 @@ class Order
   def self.parse_products(product_list)
     product_hash = {}
     separate_products = product_list.split(";")
-    separate_products.each do |product_blob|
-      item_and_price = product_blob.split(":")
+    separate_products.each do |single_product|
+      item_and_price = single_product.split(":")
       product_hash[item_and_price[0]] = item_and_price[1].to_f
     end
     return product_hash

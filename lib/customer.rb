@@ -30,21 +30,11 @@ class Customer
   end
 
   def self.save(filename, new_customer)
-    customer_array = [
-        "#{new_customer.id}",
-        "#{new_customer.email}",
-        "#{new_customer.address[:street]}",
-        "#{new_customer.address[:city]}",
-        "#{new_customer.address[:state]}",
-        "#{new_customer.address[:zip]}"
-    ]
+    customer_array = %W[#{new_customer.id} #{new_customer.email} #{new_customer.address[:street]} #{new_customer.address[:city]} #{new_customer.address[:state]} #{new_customer.address[:zip]}]
     CSV.open(filename, "a") do |file|
       file << customer_array
     end
-  #    CSV.open("planets_data.csv", "w") do |file|
-  #     planets.each do |planet|
-  #       file << planet
-  #     end
+    return true
   end
 
 end
