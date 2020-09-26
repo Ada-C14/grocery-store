@@ -160,11 +160,22 @@ describe "Order Wave 1" do
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
-    it "Returns an array of all orders" do
-      # TODO: Your test code here!
-    end
+    # it "Returns an array of all orders" do
+    #   # TODO: Your test code here!
+    #   orders = Order.all
+    #
+    #   # expect(orders.length).must_equal 35
+    #   orders.each do |order|
+    #     expect(order).must_be_kind_of Order
+    #
+    #     expect(order.id).must_be_kind_of Integer
+    #     expect(order.products).must_be_kind_of Hash
+    #     expect(order.customer).must_be_kind_of Integer
+    #     # expect(order.fulfillment_status).must_be_kind_of Symbol
+    #   end
+    # end
 
     it "Returns accurate information about the first order" do
       id = 1
