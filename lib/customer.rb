@@ -43,4 +43,11 @@ class Customer
     return customer_find
   end
 
+  # Writing a new customer's information into a new customer CSV file (Wave3)
+  def self.save(filename, new_customer)
+    CSV.open(filename, "w") do |csv| # Mode w i use to write, to add more rows I have to use mode a
+    csv << [new_customer.id, new_customer.email, new_customer.address]
+    end
+    return true
+    end
 end
