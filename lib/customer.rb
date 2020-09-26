@@ -11,8 +11,7 @@ class Customer
   end
   
   def self.all
-    @customer = Array.new
-    CSV.read('data/customers.csv').each { |customer| @customer.push(new(customer[0].to_i, customer[1], Hash(street: customer[2], city: customer[3], state: customer[4], zip: customer[5]))) }
+    @customer = CSV.read('data/customers.csv').map { |customer| new(customer[0].to_i, customer[1], Hash(street: customer[2], city: customer[3], state: customer[4], zip: customer[5])) }
     return @customer
   end
 
