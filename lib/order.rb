@@ -62,7 +62,11 @@ class Order
         product_and_price = item.split(':')
         products[product_and_price[0]] = product_and_price[1].to_f
       end
-
+      #products {
+      # "Lobster": 17.18,
+      # "Annatto seed": 58.38,
+      # Camomile:83.21
+      # }
       customer_id = order_row[2].to_i
       customer = Customer.find(customer_id)
       fulfillment_status = order_row[3].to_sym
