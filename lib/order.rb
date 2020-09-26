@@ -33,9 +33,8 @@ class Order
   def remove_product(product_name, product_price)
     if @products.include?(product_name) == false
       raise ArgumentError, "This product is not in inventory."
-      else @products.reject! {|key| key == product_name}
+    else @products.reject! {|key| key == product_name}
     end
-
   end
 
 end
