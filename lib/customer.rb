@@ -33,16 +33,17 @@ class Customer
     Customer.all.find { |customer| customer.id == id }
   end
 
-  def save ("new_customer.csv", new_customer)
-    customer_data = [
-        new_customer[0] = customer.id,
-        new_customer[1] = customer.email,
-        new_customer[2] = customer.address[street],
-        new_customer[3] = customer.address[city],
-        new_customer[4] = customer.address[state],
-        new_customer[5] = customer.address[zip]
-    ]
-    csv = CSV.open("new_customer.csv", "a+") do |file|
+  def self.save (filename, new_customer)
+    info =[]
+    info[0] = new_customer.id,
+        info[1] = new_customer.email,
+        info[2] = new_customer.address[:street],
+        info[3] = new_customer.address[:city],
+        info[4] = new_customer.address[:state],
+        info[5] = new_customer.address[:zip]
+    customer_data = [info]
+
+    csv = CSV.open(filename, "a+") do |file|
       customer_data.each do |info|
         file << info
       end
