@@ -18,49 +18,19 @@ class Customer
   def self.all
     customers = []
     CSV.read('data/customers.csv').map { |row| row.to_a}.each do |row|
-      customers << Customer.new(row[0].to_i, row[1], {:street => row[2], :city => row[3], :state => row[4], :zip => row[5]})
+      customers << Customer.new(row[0].to_i, row[1],
+      {:street => row[2], :city => row[3], :state => row[4], :zip => row[5]})
     end
     return customers
   end
+
+  def self.find(id)
+    customer_data = Customer.all
+    customer_data.each do |customer|
+      if customer.id == id
+        return  customer
+      end
+    end
+    puts "Sorry, this ID doesn't exist."
+  end
 end
-
-
-# first = Customer.all.first
-# pp first.address[:street]
-
-
-
-# pp customers = Customer.all
-# pp customers.class
-
-# pp customers = Customer.all
-
-
-# pp self.all('data/customers.csv')
-
-# def self.find(id)
-#
-# end
-
-
-
-# CSV.read()
-# kayla = Customer.new(446456, "kayla@uw.edu", {1 => 2})
-# pp kayla
-#
-#   CSV.read(filename, headers: true).each do |record|
-#     medalist = {
-#         "ID" => record["ID"],
-#         "Name" => record["Name"],
-#         "Height" => record["Height"],
-#         "Team" => record["Team"],
-#         "Year" => record["Year"],
-#         "City" => record["City"],
-#         "Sport" => record["Sport"],
-#         "Event" => record["Event"],
-#         "Medal" => record["Medal"]
-#     }
-#     olympic_medalists << medalist
-#   end
-#
-#   return olympic_medalists
