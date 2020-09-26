@@ -1,3 +1,6 @@
+require 'csv'
+require 'customer'
+
 class Order
   VALID_STATUSES = [:pending, :paid, :processing, :shipped, :complete]
   #adding a constant with the list of default fulfilment_status values
@@ -48,4 +51,37 @@ class Order
     end
   end
 
+  #1,Lobster:17.18;Annatto seed:58.38;Camomile:83.21,25,complete
+  def self.all
+    all_orders = []
+    CSV.read('data/orders.csv').each do |order_row|
+      id = order_row[0].to_i
+      products = {}
+      products_array = order_row[1].split(';')
+      products_array.each do |item|
+        product_and_price = item.split(':')
+        products[product_and_price[0]] = product_and_price[1].to_f
+      end
+
+      customer_id = order_row[2].to_i
+      customer = Customer.find(customer_id)
+      fulfillment_status = order_row[3].to_sym
+
+      all_orders << Order.new(id, products, customer, fulfillment_status)
+    end
+
+    return all_orders
+  end
+
+
+  def self.find(id)
+    all_orders = self.all
+    all_orders.each do |order|
+      if order.id == id
+        return order
+      end
+    end
+    return nil
+  end
 end
+
