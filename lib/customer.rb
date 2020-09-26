@@ -30,8 +30,31 @@ class Customer
   end
 
   def self.find(id)
-    Customer.all.find {|customer| customer.id == id}
+    Customer.all.find { |customer| customer.id == id }
   end
 
+  def save ("new_customer.csv", new_customer)
+    customer_data = [
+        new_customer[0] = customer.id,
+        new_customer[1] = customer.email,
+        new_customer[2] = customer.address[street],
+        new_customer[3] = customer.address[city],
+        new_customer[4] = customer.address[state],
+        new_customer[5] = customer.address[zip]
+    ]
+    csv = CSV.open("new_customer.csv", "a+") do |file|
+      customer_data.each do |info|
+        file << info
+      end
+    end
+  end
 end
 
+#Customer.new receives Id, a number; email address, a string; and delivery address, a hash (with three elements)
+# The Customer CSV file has 6 columns: integer, 5 sets of strings
+# Customer ID	Integer	A unique identifier corresponding to the Customer
+# Email	String	The customer's e-mail address
+# Address 1	String	The customer's street address
+# City	String	The customer's city
+# State	String	The customer's state
+# Zip Code	String	The customer's zip code
