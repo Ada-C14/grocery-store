@@ -240,4 +240,15 @@ describe "Order Wave 2" do
       expect(products_hash).must_equal parsed_hash
     end
   end
+
+  describe "Order.find_by_customer" do
+    it 'Takes in a customer id and returns a list of Order instances' do
+      orders = Order.find_by_customer(20)
+
+      expect(orders).must_be_kind_of Array
+      expect(orders[0]).must_be_kind_of Order
+      expect(orders[2].customer.id).must_equal 20
+      expect(orders.length).must_equal 7
+    end
+  end
 end
