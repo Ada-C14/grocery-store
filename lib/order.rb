@@ -21,5 +21,13 @@ class Order
 
     return total.round(2)
   end
+
+  def add_product(product_name, price)
+    if @products.has_key?(product_name)
+      raise ArgumentError.new("Product already exists.")
+    else
+      @products[product_name] = price
+    end
+  end
 end
 
