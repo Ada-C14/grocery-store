@@ -13,5 +13,13 @@ class Order
     @customer = customer
     @fulfillment_status = fulfillment_status
   end
+
+  def total
+    subtotal = @products.sum { |product, price| price }
+    tax = subtotal * TAX
+    total = subtotal + tax
+
+    return total.round(2)
+  end
 end
 
