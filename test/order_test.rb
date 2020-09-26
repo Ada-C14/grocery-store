@@ -7,7 +7,7 @@ require_relative '../lib/order'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
-xdescribe "Order Wave 1" do
+describe "Order Wave 1" do
   let(:customer) do
     address = {
       street: "123 Main",
@@ -223,6 +223,21 @@ describe "Order Wave 2" do
 
     it "Returns nil for an order that doesn't exist" do
       expect(Order.find(4432)).must_be_nil
+    end
+  end
+
+  describe "Order.get_products_hash" do
+    it 'Takes in a string of products and returns a hash of products' do
+      products = "Lobster:17.18;Annatto seed:58.38;Camomile:83.21"
+      parsed_hash = {
+          "Lobster" => 17.18,
+          "Annatto seed" => 58.38,
+          "Camomile" => 83.21
+      }
+      products_hash = Order.get_products_hash(products)
+
+      expect(products_hash).must_be_kind_of Hash
+      expect(products_hash).must_equal parsed_hash
     end
   end
 end
