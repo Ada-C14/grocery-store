@@ -50,11 +50,3 @@ class Customer
   end
 end
 
-#Customer.new receives Id, a number; email address, a string; and delivery address, a hash (with three elements)
-# The Customer CSV file has 6 columns: integer, 5 sets of strings
-# Customer ID	Integer	A unique identifier corresponding to the Customer
-# Email	String	The customer's e-mail address
-# Address 1	String	The customer's street address
-# City	String	The customer's city
-# State	String	The customer's state
-# Zip Code	String	The customer's zip code
