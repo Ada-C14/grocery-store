@@ -183,7 +183,7 @@ describe "Order Wave 2" do
       products = {
         "Amaranth" => 83.81,
         "Smoked Trout" => 70.6,
-        "Chedder" => 5.63
+        "Cheddar" => 5.63
       }
       customer_id = 20
       fulfillment_status = :pending
@@ -193,7 +193,7 @@ describe "Order Wave 2" do
       expect(last.id).must_equal id
       expect(last.products).must_equal products
       expect(last.customer).must_be_kind_of Customer
-      expect(last.customer_id).must_equal customer_id
+      expect(last.customer.id).must_equal customer_id
       expect(last.fulfillment_status).must_equal fulfillment_status
     end
   end
