@@ -40,16 +40,39 @@ class Order
     end
   end
 
-  def product_hash(products)
-    
+  def self.product_hash(products)
+    products = products.split(";")
+    array = []
+
+    products.each do |product|
+      array << product.split(":")
+    end
+
+    hash = array.to_h
+
+    hash.each do |key,value|
+      hash[key] = value.to_f
+    end
+
+    hash
   end
 
   def self.all
     orders_data = CSV.read('data/orders.csv', headers:true).map { |row| row.to_h }
     orders = orders_data.map do |order|
-      Order.new(order['id'].to_i, order['products'], order['customer'], order['fulfillment_status'].to_sym)
+      Order.new(order['id'].to_i, self.product_hash(order['products']), order['customer_id'].to_i, order['fulfillment_status'].to_sym)
     end
     orders
+  end
+
+  def self.find(id)
+    orders = self.all
+    orders.each do |order|
+      if order.id == id
+        return order
+      end
+    end
+    return nil
   end
 
 end

@@ -14,4 +14,4 @@ require 'csv'
 # orders_data = CSV.read('data/orders.csv', headers:true).map { |row| row.to_h }
 # p orders_data.last['fulfillment_status']
 
-p Order.all
+p Order.find(100)
