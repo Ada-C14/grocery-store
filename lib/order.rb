@@ -1,3 +1,5 @@
+require 'csv'
+
 VALID_STATUS = [:pending, :paid, :processing, :shipped, :complete]
 TAX = 0.075
 
@@ -36,6 +38,12 @@ class Order
     else
       raise ArgumentError.new("That product does not exist.")
     end
+  end
+
+  def self.get_products_hash(products)
+    regex = /([\w\s]+):((\d*[.])?\d+)/
+
+    return products.scan(regex).map { |product, price| [ product.to_s, price ] }.to_h
   end
 end
 
