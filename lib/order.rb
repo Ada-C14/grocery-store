@@ -67,5 +67,11 @@ class Order
 
     return all_orders.find { |order| order.id == id }
   end
+
+  def self.find_by_customer(customer_id)
+    all_orders = Order.all
+
+    return all_orders.select { |order| order.customer.id == customer_id }
+  end
 end
 
