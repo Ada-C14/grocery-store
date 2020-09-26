@@ -14,7 +14,7 @@ class Customer
   def self.all
     keys = [:id, :email, :street, :city, :state, :zip]
 
-    CSV.read('data/customers.csv').map do |customer_array|
+    return CSV.read('data/customers.csv').map do |customer_array|
       customer = keys.zip(customer_array).to_h
 
       Customer.new(
