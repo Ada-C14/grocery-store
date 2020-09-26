@@ -25,10 +25,10 @@ class Order
   end
 
   def total
-    tax = 7.5/100.0
+    tax = 7.5 / 100.0
     total = @products.values.sum
     total_with_tax = total + (total * tax)
-    return total_with_tax.round(2)
+    total_with_tax.round(2)
   end
 
   def add_product(product_name, price)
@@ -53,7 +53,6 @@ class Order
     hash.each do |key,value|
       hash[key] = value.to_f
     end
-
     hash
   end
 
@@ -72,7 +71,7 @@ class Order
         return order
       end
     end
-    return nil
+    nil
   end
 
 end

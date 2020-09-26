@@ -11,10 +11,6 @@ class Customer
     @address = address
   end
 
-  # def self.all
-  #   return CUSTOMERS_DATA
-  # end
-
   def self.all
     customer_data = CSV.read('data/customers.csv', headers: true).map(&:to_h)
     customers = customer_data.map do |customer|
@@ -36,7 +32,9 @@ class Customer
         return customer
       end
     end
-    return nil
+    nil
   end
-
 end
+
+#removed excess comments
+
