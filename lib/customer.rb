@@ -21,10 +21,10 @@ class Customer
       id = customer[0].to_i
       email = customer[1]
       address = {
-          street: customer[2],
-          city: customer[3],
-          state: customer[4],
-          zip: customer[5]
+        street: customer[2],
+        city: customer[3],
+        state: customer[4],
+        zip: customer[5]
       }
 
       customer_instances << Customer.new(id, email, address)
@@ -34,9 +34,7 @@ class Customer
 
   #returns an instance of Customer where the value of the id field in the CSV matches the passed parameter
   def self.find(id)
-    all.each do |customer|
-      return customer if customer.id == id
-    end
+    all.each { |customer| return customer if customer.id == id }
     return nil
   end
 end
