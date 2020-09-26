@@ -18,36 +18,33 @@ class Customer
       id = data[0].to_i
       email = data[1]
       address = {
-          street: data[2],
-          city: data[3],
-          state: data[4],
-          zip: data[5]
+        street: data[2],
+        city: data[3],
+        state: data[4],
+        zip: data[5]
       }
       all << Customer.new(id, email, address)
     end
 
-    return all
+    all
   end
 
   def self.find(id)
     Customer.all.find { |customer| customer.id == id }
   end
 
-  def self.save (filename, new_customer)
-    info =[]
-    info[0] = new_customer.id,
-        info[1] = new_customer.email,
-        info[2] = new_customer.address[:street],
-        info[3] = new_customer.address[:city],
-        info[4] = new_customer.address[:state],
-        info[5] = new_customer.address[:zip]
-    customer_data = [info]
+  def self.save(filename, new_customer)
+    info = [
+      new_customer.id,
+      new_customer.email,
+      new_customer.address[:street],
+      new_customer.address[:city],
+      new_customer.address[:state],
+      new_customer.address[:zip]
+    ]
 
-    csv = CSV.open(filename, "a+") do |file|
-      customer_data.each do |info|
-        file << info
-      end
+    CSV.open(filename, 'a+') do |file|
+      file << info
     end
   end
 end
-
