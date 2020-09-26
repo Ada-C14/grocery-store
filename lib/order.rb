@@ -73,12 +73,12 @@ class Order
 
       products.each do |product|
         product_array = product.split(':')
-        products_hash[product_array[0]] = product_array[1]
+        products_hash[product_array[0]] = product_array[1].to_f
       end
 
       return products_hash
   end
-  
+
 end
 
 
