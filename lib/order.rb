@@ -1,3 +1,5 @@
+require 'csv'
+require_relative 'customer'
 class Order
 
   attr_reader :id, :products, :customer, :fulfillment_status
@@ -51,5 +53,32 @@ class Order
     end
   end
 
+  def self.all
+
+    orders = CSV.read('data/orders.csv', headers: true).map do |row|
+      row.to_h
+    end
+
+    return orders.map do |order|
+      products = products_hash_format(order["products"])
+      customer = Customer.find(order["customer_id"].to_i)
+
+      Order.new(order["id"].to_i, products, customer, order["status"].to_sym)
+    end
+  end
+
+  def self.products_hash_format(products_to_split)
+      products = products_to_split.split(';')
+      products_hash = {}
+
+      products.each do |product|
+        product_array = product.split(':')
+        products_hash[product_array[0]] = product_array[1]
+      end
+
+      return products_hash
+  end
+  
 end
+
 
