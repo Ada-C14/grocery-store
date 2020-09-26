@@ -18,7 +18,7 @@ class Order
     if @products.empty?
       return 0
     else
-      total = (@products.values.sum*1.075).round(2)
+      total = (@products.values.sum * 1.075).round(2)
     end
     return total
   end
@@ -36,11 +36,15 @@ class Order
   end
 
   def self.all
-    orders_csv = CSV.read('data/orders.csv').map { |order| order.to_a }
     all_order_instances = []
 
-    orders_csv.each do |order|
+    CSV.read('data/orders.csv').map { |order| order.to_a }.each do |order|
+
       id = order[0].to_i
+      customer_id = order[2].to_i
+      fulfillment = order[3].to_sym
+
+      #need to trim down here:
       product_array = order[1].split(/;/)  #outputs an array of products
       all_items = []
 
@@ -56,14 +60,15 @@ class Order
       # [{food1: 4.5, food2: 2.5, etc. }]
       all_products = all_items.inject{|memo, obj| memo.merge(obj)}
 
-      customer_id = order[2].to_i
-
-      fulfillment = order[3].to_s
-
-      all_order_instances << order.new(id, all_products, Customer.find(customer_id), fulfillment)
+      all_order_instances << Order.new(id, all_products, Customer.find(customer_id), fulfillment)
 
     end
     return all_order_instances
+  end
+
+  def self.find(id)
+
+    return Order.all.find { |order| order.id == id }  #returns the ORder instance if found, else returns nil
   end
 
 end

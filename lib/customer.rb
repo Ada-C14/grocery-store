@@ -12,11 +12,9 @@ class Customer
   end
 
   def self.all
-    all = CSV.read('data/customers.csv').map { |customer| customer.to_a }
-
     all_customer_instances = []
 
-    all.each do |customer|
+    CSV.read('data/customers.csv').map { |customer| customer.to_a }.each do |customer|
       id = customer[0].to_i
       email = customer[1]
       address = {
