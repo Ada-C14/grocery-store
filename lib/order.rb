@@ -45,5 +45,11 @@ class Order
 
     return products.scan(regex).map { |product, price| [ product.to_s, price ] }.to_h
   end
+
+  def self.find(id)
+    all_orders = Order.all
+
+    return all_orders.find { |order| order.id == id }
+  end
 end
 
