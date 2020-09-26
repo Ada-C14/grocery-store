@@ -222,7 +222,7 @@ describe "Order Wave 2" do
     end
 
     it "Returns nil for an order that doesn't exist" do
-      # TODO: Your test code here!
+      expect(Order.find(4432)).must_be_nil
     end
   end
 end
