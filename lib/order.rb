@@ -37,7 +37,8 @@ class Order
     csv_products_line.split(/;/).each do |string| # splits at semi-colon
       single_product = string.split(/:/) # split at the colon:
 
-      all_items.push({single_product[0] => single_product[1].to_f})
+      all_items << {single_product[0] => single_product[1].to_f}
+                                                  #.push vs. <<, does push return a new array so maybe I should use <<?  Or it doesn't matter?
       # now we have: [{food1: 4.5}, {food2: 2.5}, etc.]
     end
     all_products = all_items.inject{|memo, obj| memo.merge(obj)}
@@ -72,8 +73,8 @@ end
 #
 #   #pp orders_csv
 #
-# all_order_instances = []
-#
+all_order_instances = []
+
 # orders_csv.each do |order|
 #   id = order[0].to_i
 #   product_array = order[1].split(/;/)  #outputs an array of products

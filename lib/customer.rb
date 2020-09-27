@@ -50,6 +50,8 @@ class Customer
 
 end
 
+
+
 #p Customer.all
 #
 # jared = Customer.new(777, "j@ada.ord", {:street=>"123 Main", :city=>"Seattle", :state=>"WA", :zip=>"98101"})
