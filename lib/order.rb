@@ -1,4 +1,6 @@
+##################################
 require 'CSV'
+##################################
 
 class Order
   attr_reader :id, :products, :customer, :fulfillment_status, :expected_total
@@ -32,10 +34,10 @@ class Order
 
     new_product = {product_name => price}
     if @products.include?(product_name)
-      raise ArgumentError.new("That product already exists") #Do i need to add in an optional gets.chomp?
+      raise ArgumentError.new("That product already exists")
     end
 
-    @products.merge!(new_product) #why does this work?
+    @products.merge!(new_product)
     expected_count = before_count + 1
     return expected_count
   end
@@ -43,7 +45,7 @@ class Order
   def self.all
     orders = CSV.read('data/orders.csv').map do |order|
       id = order[0].to_i
-      products = Order.product_hash(order[1]) #Order.product_hash because it's refering to my helper
+      products = Order.product_hash(order[1])
       customer = Customer.find(order[2].to_i)
       fulfillment_status = order[3].to_sym
 
@@ -51,7 +53,8 @@ class Order
     end
   end
 
-  def self.product_hash(product_string, prod_sep=';', cost_sep=':') #helper method for order.all
+  # Helper method for Order.all
+  def self.product_hash(product_string, prod_sep=';', cost_sep=':')
     products_array = product_string.split(prod_sep)
     hash = {}
 
@@ -63,12 +66,7 @@ class Order
   end
 
   def self.find(wanted_order_id)
-    order = (Order.all).find { |order| order.id == wanted_order_id}
+    order = Order.all.find { |order| order.id == wanted_order_id}
     return order
   end
 end
-
-# emily = Customer.new('412', 'emily@gmail.com', '235928759')
-#
-# emily = Order.new('234', {"coffee" => 2.00}, customer, :pending)
-# p emily

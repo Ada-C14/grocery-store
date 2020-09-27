@@ -1,4 +1,6 @@
+##################################
 require 'CSV'
+##################################
 
 class Customer
   attr_reader :id, :email, :address
@@ -10,7 +12,7 @@ class Customer
 
   end
 
-  def self.all # Class method
+  def self.all
     customers = CSV.read('data/customers.csv').map do |customer|
 
     id = customer[0].to_i
@@ -21,15 +23,14 @@ class Customer
         state: customer[4],
         zip: customer[5]
     }
+
     Customer.new(id, email, address)
     end
   end
 
-  def self.find(wanted_id) # Class method
-    customer = (Customer.all).find { |customer| customer.id == wanted_id}
+  def self.find(wanted_id)
+    customer = (Customer.all).find { |customer| customer.id == wanted_id }
       return customer
   end
 end
 
-# emily = Customer.new("12", "emily@gmail.com", "1234 45th ave, Seattle, WA, 98162")
-# p emily.address
