@@ -1,31 +1,42 @@
-#
+require_relative "customer"
 
 class Order
   attr_reader :id
-  attr_accessor :product_collection, :customer, :fulfillment_status
+  attr_accessor :products, :customer, :fulfillment_status
 
-  def initialize
+  def initialize(id, products, customer, fulfillment_status = :pending) # keyword argument/optional argument. Check
     @id = id
-    @product_collection = {}
+    @products = products # { "banana" => 1.99, "cracker" => 3.00 }
+    @customer = customer
+    @fulfillment_status = fulfillment_status
+    if ![:pending, :paid, :processing, :shipped, :complete].include?(@fulfillment_status)
+      raise ArgumentError, "Invalid fulfillment status"
+    end
   end
 
   # Create product collection, array of hashes
-  #
-  # def total(order_products)
-  #   return
-  #   Each order * its price
-  #   Sum all this
-  #   Multiply by 1.075
-  #   Round this to 2 decimal places
-  # end
+  # Check if order_products is empty hash
+  def total
+    subtotal = @products.values.sum
+    subtotal_tax = subtotal * 1.075
+    total = sprintf('%.2f', subtotal_tax).to_f
+
+    return total
+  end
+
+
 
   # Problem of accessing product_collection array from outside method
   def add_product(product_name, price)
-    product_hash = {}
-    product_hash[product_name] = price
-    @product_collection << product_hash
-  end
+    # .key? or has_key?
+    if @products.key?(product_name)
+      raise ArgumentError, "Product name already exists"
+    else
+      @products[product_name] = price
+    end
 
-  pp add_product("banana", 1.99)
+    return product_name
+
+  end
 
 end
