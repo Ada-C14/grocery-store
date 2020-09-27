@@ -5,31 +5,23 @@ require 'awesome_print'
 
 class Order
   attr_reader :id
-  attr_accessor :products_prices
+  attr_accessor :products, :customer, :fulfillment_status
 
-  def initialize(id, products_prices, customer, fulfilment_status)
+  def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
-    @products_prices = products_prices
-      #{ "banana" => 1.99, "cracker" => 3.00 }
-      # Zero products is permitted (an empty hash)
-      # You can assume that there is only one of each product
+    @products = products
     @customer = customer
-    @fulfilment_status = fulfilment_status
-      #:pending, :paid, :processing, :shipped, or :complete
-      # If no fulfillment_status is provided, it will default to :pending
-      # If a status is given that is not one of the above, an ArgumentError should be raised
+    @fulfillment_status = %i[pending paid processing shipped complete].include?(fulfillment_status) ? (fulfillment_status) : (raise ArgumentError)
   end
 
+  def total
+    sum = products.values.reduce(:+)
+    products == {}? 0 : (sum * 0.075 + sum).floor(2)
+  end
 
-  #  A total method which will calculate the total cost of the order by:
-    # Summing up the products
-    # Adding a 7.5% tax
-    # Rounding the result to two decimal places
-
-
-  # An add_product method which will take in two parameters, product name and price, and add the data to the product collection
-   # If a product with the same name has already been added to the order, an ArgumentError should be raised
-
+  def add_product(product_name, price)
+    products.include?(product_name) ? (raise ArgumentError) : (products[product_name] = price)
+  end
 
   #  Optional Enhancements
     # Make sure to write tests for any optionals you implement!
