@@ -24,12 +24,8 @@ class Order
   end
 
   def add_product(product_name, price)
-
     raise ArgumentError.new("product already exists") if @products.key?(product_name)
-
-    # another way
-    # raise ArgumentError.new("product already exists") if @products.any? {|product, price| product == product_name}
-
+    # another option: raise ArgumentError.new("product already exists") if @products.any? {|product, price| product == product_name}
     @products[product_name] = price
 
     return @products
@@ -66,12 +62,12 @@ class Order
   end
 
   def self.find(id)
-
     return Order.all.find { |order| order.id == id }  # returns the ORder instance if found, else returns nil
   end
 
 end
 
+#NOTES:
 # orders_csv = CSV.read('../data/orders.csv').map { |order| order.to_a }
 #
 #   #pp orders_csv
