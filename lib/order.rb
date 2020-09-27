@@ -1,3 +1,5 @@
+require 'customer.rb'
+require 'csv'
 
 class Order
 
@@ -35,6 +37,42 @@ class Order
       raise ArgumentError, "This product is not in inventory."
     else @products.reject! {|key| key == product_name}
     end
+  end
+
+  def self.all
+    cust_order = CSV.read('./data/orders.csv', headers: false).map do |row|
+      id = row[0].to_i
+
+      products = self.product_to_hash(row[1])
+
+      customer = Customer.find(row[2].to_i)
+
+      fulfillment_status = row[3] == nil ? nil : row[3].to_sym
+
+      Order.new(id, products, customer, fulfillment_status)
+    end
+    return cust_order
+  end
+
+  def self.find(id)
+    return self.all.find {|customer| customer.id == id }
+  end
+
+  private
+
+  def self.product_to_hash(order_string)
+
+    products = {}
+
+    single_products = order_string.split(';')
+
+    single_products.each do |product|
+      hash_pair = product.split(':')
+      products[hash_pair[0]] = hash_pair[1].to_f
+    end
+
+    return products
+
   end
 
 end
