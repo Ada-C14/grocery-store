@@ -8,10 +8,11 @@ class Order
   attr_accessor :products, :customer, :fulfillment_status
 
   def initialize(id, products, customer, fulfillment_status = :pending)
+    valid_status = %i[pending paid processing shipped complete]
     @id = id
     @products = products
     @customer = customer
-    @fulfillment_status = %i[pending paid processing shipped complete].include?(fulfillment_status) ? (fulfillment_status) : (raise ArgumentError)
+    @fulfillment_status = valid_status.include?(fulfillment_status) ? (fulfillment_status) : (raise ArgumentError)
   end
 
   def total
