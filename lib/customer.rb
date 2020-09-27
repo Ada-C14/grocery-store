@@ -1,5 +1,4 @@
 require 'csv'
-require 'awesome_print' # TODO: remove
 
 class Customer
   attr_reader :id
