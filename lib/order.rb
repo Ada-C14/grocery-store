@@ -1,5 +1,5 @@
 # require 'pry'
-# require_relative 'customer'
+require_relative 'customer'
 # require 'CSV'
 
 class Order
@@ -76,5 +76,22 @@ class Order
     end
     return products_hash
   end
+
+  def self.find_by_customer(customer_id)
+    # array = []
+    # self.all.each do |order|
+    #   if order.customer.id == (customer_id)
+    #     array << order.customer
+    #   end
+    # end
+    # return array
+    return self.all.find_all { |order| order.customer.id == (customer_id) }
+
+
+    end
+
+
+    # return []
+  # end
 
 end

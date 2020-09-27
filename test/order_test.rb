@@ -226,7 +226,7 @@ describe "Order Wave 2" do
     it "Can find the last order from the CSV" do
       # TODO: Your test code here!
       last = Order.find(100)
-
+      # binding.pry
       expect(last).must_be_kind_of Order
       expect(last.id).must_equal 100
     end
@@ -234,6 +234,14 @@ describe "Order Wave 2" do
     it "Returns nil for an order that doesn't exist" do
       # TODO: Your test code here!
       expect(Order.find(101)).must_be_nil
+    end
+
+    it "Can find all instances of Order and return an array" do
+      # optional test for find by customer id
+      orders = Order.find_by_customer(25)
+
+      expect(orders).must_be_kind_of Array
+      expect(orders.length).must_equal 6
     end
   end
 end

@@ -29,7 +29,6 @@ class Customer
   def self.find(id)
     self.all.find { |customer| customer.id == id}
   end
-  # end
 
 end
 
