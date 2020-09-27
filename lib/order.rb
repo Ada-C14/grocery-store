@@ -1,6 +1,10 @@
+require_relative 'customer'
+
 class Order
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
+
+  @@order_all
 
   TAX_RATE = 0.075
 
@@ -34,5 +38,16 @@ class Order
     else
       raise ArgumentError
     end
+  end
+
+  def self.all
+    unless @@order_all
+      @@order_all = CSV.read("../data/orders.csv")
+                       .map {|row| Order.new(row[0],
+                                             row[1].split(";").map {|item| item.split(":")}.to_h,
+                                             Customer.find(row[2]),
+                                             row[3])}
+    end
+    return @@order_all
   end
 end
