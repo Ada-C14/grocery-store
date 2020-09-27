@@ -70,4 +70,22 @@ class Order
     return found[0]
   end
 
+  def self.find_by_customer(customer_id)
+    found = Order.all.select { |order| order.customer.id == customer_id }
+
+    list_of_orders = "The following orders were found associated with customer ID #{customer_id}: \n"
+
+    if found.length == 0
+      return "No orders were found associated with Customer ID #{customer_id}."
+    else
+      found.each do |order|
+        list_of_orders += "- #{order}: Order ID #{order.id}"
+        list_of_orders += "\n"
+      end
+    end
+
+    return list_of_orders
+  end
+
 end
+
