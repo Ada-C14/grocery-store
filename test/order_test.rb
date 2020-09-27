@@ -4,6 +4,7 @@ require 'minitest/skip_dsl'
 
 require_relative '../lib/customer'
 require_relative '../lib/order'
+require 'pry'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
@@ -162,20 +163,21 @@ end
 # TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
   describe "Order.all" do
-    # it "Returns an array of all orders" do
-    #   # TODO: Your test code here!
-    #   orders = Order.all
-    #
-    #   # expect(orders.length).must_equal 35
-    #   orders.each do |order|
-    #     expect(order).must_be_kind_of Order
-    #
-    #     expect(order.id).must_be_kind_of Integer
-    #     expect(order.products).must_be_kind_of Hash
-    #     expect(order.customer).must_be_kind_of Integer
-    #     # expect(order.fulfillment_status).must_be_kind_of Symbol
-    #   end
-    # end
+    it "Returns an array of all orders" do
+      # TODO: Your test code here!
+      orders = Order.all
+
+      expect(orders.length).must_equal 100
+      orders.each do |order|
+        # binding.pry
+        expect(order).must_be_kind_of Order
+
+        expect(order.id).must_be_kind_of Integer
+        expect(order.products).must_be_kind_of Hash
+        expect(order.customer).must_be_kind_of Customer
+        expect(order.fulfillment_status).must_be_kind_of Symbol
+      end
+    end
 
     it "Returns accurate information about the first order" do
       id = 1
@@ -199,6 +201,16 @@ describe "Order Wave 2" do
 
     it "Returns accurate information about the last order" do
       # TODO: Your test code here!
+      last = Order.all.last
+
+      expect(last.id).must_equal 100
+      expect(last.products).must_be_kind_of Hash
+      expect(last.products["Amaranth"]).must_equal 83.81
+      expect(last.products["Smoked Trout"]).must_equal 70.6
+      expect(last.products["Cheddar"]).must_equal 5.63
+      expect(last.customer).must_be_kind_of Customer
+      expect(last.fulfillment_status).must_equal :pending
+
     end
   end
 

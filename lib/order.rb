@@ -1,6 +1,6 @@
-require 'pry'
-require 'money'
-require_relative 'customer'
+# require 'pry'
+# require_relative 'customer'
+# require 'CSV'
 
 class Order
 
@@ -53,17 +53,17 @@ class Order
   def self.all
     orders = CSV.read('data/orders.csv').map do |row|
       Order.new(row[0].to_i, # id
-                self.products_to_hash(row[1]), # calls helper method
-                   row[2], # customer
-                   row[3].to_s # fulfillment_status
+                self.products_to_hash(row[1]), # calls helper
+                Customer.find(row[2].to_i), # customer
+                row[3].to_sym # fulfillment_status
       )
     end
     return orders
   end
 
-  # def self.find(id)
-  #   self.all.find { |customer| customer.id == id}
-  # end
+  def self.find(id)
+    self.all.find { |order| order.id == id}
+  end
 
   private
 
@@ -71,7 +71,7 @@ class Order
     products_hash = Hash.new
     products_string.split(";").each do |string| # line returns [ product1:price1, product2:price2 ]
     product = string.split(":")[0]
-    price = string.split(":")[1]
+    price = string.split(":")[1].to_f
     products_hash[product] = price
     end
     return products_hash
