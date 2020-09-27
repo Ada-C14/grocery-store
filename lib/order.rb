@@ -50,4 +50,9 @@ class Order
     end
     return @@order_all
   end
+
+  def self.find_by_customer(customer_id)
+    customer_matches = self.all.select {|order| order.customer.id == customer_id}
+    return customer_matches
+  end
 end
