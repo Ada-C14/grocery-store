@@ -40,7 +40,7 @@ class Order
   def self.all
     # everything from the csv file is going in here as strings as of right now; each row is a an array
     # an array of arrays (rows) of strings(each column)- separated by commas
-    @arr_of_instances = CSV.read('C:\Users\alice\ADA\grocery-store\data\orders.csv').map do |row|
+    @arr_of_instances = CSV.read('data/orders.csv').map do |row|
       # ================>>>>>>> 1,Lobster:17.18;Annatto seed:58.38;Camomile:83.21,25,complete
       hash_products_perorder = {}
       array1 = row[1].split(';')
@@ -78,3 +78,4 @@ end
 # puts thisthing[0].products
 # puts thisthing[99].customer.email
 
+# this is a comment
