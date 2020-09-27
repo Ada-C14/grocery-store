@@ -17,9 +17,9 @@ end
 
 class Order
   def initialize (id, products, customer, fulfillment_status = :pending)
-    @id = id #number
-    @products = products #hash, will figure this out later
-    @customer = customer #string?
+    @id = id
+    @products = products
+    @customer = customer
     @fulfillment_status = fulfillment_status
       status_options = [:pending, :paid, :processing, :shipped, :complete]
       raise ArgumentError.new("Not a valid fulfillment status.") if status_options.include?(fulfillment_status) == false
@@ -28,27 +28,16 @@ class Order
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
 
-  # def status_update (fulfillment_status)
-  #   status_options = [:pending, :paid, :processing, :shipped, :complete]
-  #   if status_options.include? @fulfillment_status
-  #     @fulfillment_status = fulfillment_status
-  #   else
-  #     raise ArgumentError
-  #   end
-  # end
-
-
-
   def total
-    sum = 0.00
+    subtotal = 0.00
     @products.each do |product, cost|
-      sum += cost
+      subtotal += cost
     end
 
-    sum *= 1.075
-    total = '%.2f' % sum
+    subtotal *= 1.075
+    total = subtotal.round(2)
 
-    return  total.to_f
+    return  total
   end
 
   def add_product(name, price)
@@ -62,20 +51,18 @@ class Order
     orders_temp = CSV.read('data/orders.csv').map do |row|
       { "id" => row[0].to_i,
         "products" => product_format(row[1]),
-        "customer_id" => row[2].to_i, #turn the Customer ID into an instance of Customer
+        "customer id" => row[2].to_i,
         "status" => row[3].to_sym
       }
     end
 
     orders = []
     orders_temp.each do |row|
-      orders << Order.new(row["id"], row["products"], Customer.find(row["customer_id"]), row["status"])
+      orders << Order.new(row["id"], row["products"], Customer.find(row["customer id"]), row["status"])
     end
 
     return orders
   end
-
-
 
   def self.find(id)
     found = Order.all.select { |order| order.id == id }
