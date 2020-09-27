@@ -58,6 +58,11 @@ class Order
     return self.all.find {|order| order.id == id }
   end
 
+  # def self.find_by_customer(customer_id)
+  #   customer_instance = Customer.find(customer_id)
+  #   return self.all.find {|order| order.customer == customer_instance}
+  # end
+
   private
 
   def self.product_to_hash(order_string)
