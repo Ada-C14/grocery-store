@@ -16,7 +16,6 @@ class Order
     end
   end
 
-
   def total
     return 0 if @products.empty?
     sum = @products.sum {|item, cost| cost}
@@ -58,10 +57,12 @@ class Order
     return self.all.find {|order| order.id == id }
   end
 
-  # def self.find_by_customer(customer_id)
-  #   customer_instance = Customer.find(customer_id)
-  #   return self.all.find {|order| order.customer == customer_instance}
-  # end
+  def self.find_by_customer(customer_id)
+    cust_order = all
+    customer_orders = cust_order.find_all {|order| order.customer.id == customer_id}
+
+    customer_orders.empty? ? nil : customer_orders
+  end
 
   private
 

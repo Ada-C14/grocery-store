@@ -219,12 +219,10 @@ describe "Order Wave 2" do
     end
   end
 
-  xdescribe "Order.find_by_customer" do
+  describe "Order.find_by_customer" do
     it "Finds the correct ammount of orders for given customer" do
       cust_order_arr = Order.find_by_customer(10)
-      p Order.all
-      p cust_order_arr
-      p cust_order_arr.length
+
       # order 2, order 16, order 61, order 88
       expect(cust_order_arr.length).must_equal 4
       expect(cust_order_arr[3]).must_be_kind_of Order
@@ -237,9 +235,8 @@ describe "Order Wave 2" do
 
     end
 
-    it "Raises ArgumentError for ID that doesn't exist" do
-      cust_order_arr = Order.find_by_customer(500)
-      expect(cust_order_arr).must_raise ArgumentError
+    it "Returns nil for customer id which does not exist" do
+      expect(Order.find_by_customer(53145)).must_be_nil
     end
   end
 
