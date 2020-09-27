@@ -1,6 +1,6 @@
 require "csv"
-require "awesome_print"
-require "pry"
+#require "awesome_print"
+#require "pry"
 
 class Customer
   attr_reader :id, :email, :address
@@ -11,6 +11,7 @@ class Customer
     @address = address
   end
 
+  #returns a collection of Customer instances, representing all of the Customer described in the CSV file
   def self.all
 
     customers_csv = CSV.read('data/customers.csv').map { |row| row.to_a }
