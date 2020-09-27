@@ -14,21 +14,23 @@ class Customer
 
   def self.all
     unless @@all_customers
-      @@all_customers = CSV.read("../data/customers.csv").map {|row| Customer.new(row[0], row[1], "#{row[2]}, #{row[3]}, #{row[4]} #{row[5]}")}
+      @@all_customers = CSV.read("data/customers.csv")
+                            .map {|row| Customer.new(row[0].to_i,
+                                                     row[1],
+                                                     {street: row[2], city: row[3], state: row[4], zip: row[5]})}
     end
     return @@all_customers
   end
 
   def self.find(id)
-    match = Customer.all.find {|customer| customer.id == id.to_s}
-    if match
-      return match
-    else
-      raise ArgumentError, "#{id} is not in the system."
-    end
+    return Customer.all.find {|customer| customer.id == id}
   end
 
+  def self.save(filename, new_customer)
+    CSV.open(filename, 'a') do |csv|
+      csv << new_customer
+    end
+    return true
+  end
 end
 
-p Customer.all
-p Customer.find(22)
