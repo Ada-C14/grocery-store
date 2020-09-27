@@ -2,9 +2,9 @@ require 'csv'
 
 class Customer
   def initialize (id, email, address)
-    @id = id #number
-    @email = email #string
-    @address = address #hash, will figure out how to deal with this later
+    @id = id
+    @email = email
+    @address = address
   end
 
   attr_reader :id
@@ -39,5 +39,3 @@ class Customer
 
 
 end
-
-print Customer.find(3)
