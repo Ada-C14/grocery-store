@@ -74,4 +74,15 @@ class Order
     return order
   end
 
+  # Wave 2 Optional
+  def self.find_by_customer(customer_id)
+    order_list = []
+    self.all.each do |order|
+      if order.customer.id == customer_id
+        order_list << order
+      end
+    end
+    return order_list
+  end
 end
+

@@ -183,4 +183,18 @@ describe "Order Wave 2" do
       expect(Order.find(99999)).must_be_nil
     end
   end
+
+  describe "Order.find_by_customer(customer_id)" do
+    it "Returns an array of orders" do
+      orders = Order.find_by_customer(10)
+
+      expect(orders).must_be_kind_of Array
+      expect(orders.length).must_equal 4
+
+      orders = Order.find_by_customer(25)
+
+      expect(orders).must_be_kind_of Array
+      expect(orders.length).must_equal 6
+    end
+  end
 end
