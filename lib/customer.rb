@@ -14,7 +14,7 @@ class Customer
 
   def self.all
     # - `self.all` - returns a collection of `Customer` instances, representing all of the Customer described in the CSV file
-    modified_csv_data = CSV.read('./data/customers.csv').map do |customer|
+    modified_csv_data = CSV.read('../data/customers.csv').map do |customer|
       Customer.new(customer[0].to_i,
                    customer[1],
                    Hash[:street, customer[2], :city, customer[3], :state,customer[4], :zip, customer[5]])
