@@ -1,23 +1,6 @@
 require 'csv'
 
-#require_relative "../data/customers.csv"
-
-
 class Customer
-
-  def self.all
-    headers = [:id, :email, :street, :city, :state, :zip]
-    customers = CSV.parse(File.read("./data/customers.csv"), headers: headers).map do |row|
-      # address = Hash.new
-      # headers.pop(4).each{|header| address[header] = row[header]}
-      Customer.new(row[:id].to_i, row[:email], {street: row[:street], city: row[:city], state: row[:state], zip: row[:zip]})
-    end
-    return customers
-  end
-
-  def self.find(id)
-    return self.all.find{|customer| customer.id == id}
-  end
 
   attr_reader :id
   attr_accessor :email, :address
@@ -28,4 +11,23 @@ class Customer
     @address = address
   end
 
+  def self.all
+    headers = [:id, :email, :street, :city, :state, :zip]
+    customers = CSV.parse(File.read("./data/customers.csv"), headers: headers).map do |row|
+      address = self.headers_to_address(headers, row, 2, 5)
+      Customer.new(row[:id].to_i, row[:email], address)
+    end
+    return customers
+  end
+
+  def self.find(id)
+    return self.all.find{|customer| customer.id == id}
+  end
+
+  private
+  def self.headers_to_address(headers, row,  address_begin, address_end)
+    address = Hash.new
+    headers[address_begin..address_end].each{|header| address[header] = row[header]}
+    return address
+  end
 end
