@@ -1,4 +1,5 @@
 require_relative 'customer'
+require 'csv'
 
 class Order
 
@@ -16,6 +17,45 @@ class Order
     raise ArgumentError, "invalid fulfillment_status" unless [:pending, :paid, :processing, :shipped, :complete].include? fulfillment_status
 
   end
+
+
+  def self.all
+    orders = []
+    CSV.read('data/orders.csv').each do |row|
+      order = parse_order(row)
+      orders << order
+    end
+
+    return orders
+  end
+
+  def self.parse_products(products)
+    products_hash = {}
+    products.each { |product| products_hash.store(product.split(':')[0] , product.split(':')[1].to_f ) }
+    return products_hash
+  end
+
+  def self.parse_order(row)
+    # comma_splits = string.split(',')
+    products = row[1].split(';')
+    products = parse_products(products)
+    customer = Customer.find(row[2].to_i)
+    fulfillment_status = row[3].to_sym
+    order = Order.new(row[0].to_i, products, customer, fulfillment_status)
+    return order
+
+  end
+
+  def self.find(id)
+    order_data = Order.all
+    order_data.each do |order|
+      if order.id == id
+        return  order
+      end
+    end
+    puts "Sorry, this ID doesn't exist."
+  end
+
 
   def total
     if products.values.all? nil
@@ -39,12 +79,3 @@ class Order
   end
 
 end
-
-# kayla = Order.new(45678, {"bread" => 5, "meat" => 7}, "Kayla")
-# kayla.remove_product("olives")
-# pp kayla
-
-
-
-# kayla_order = Order.new(4534, {}, "Kayla", :invalid)
-# pp kayla_order
