@@ -2,7 +2,7 @@ require 'csv'
 require_relative 'customer'
 
 class Order
-  # Getter method return :id, @id value when calls
+  # Getter method return :int_id, @int_id value when calls
   attr_reader :id, :products, :customer, :fulfillment_status
 
   # Constructor
@@ -14,12 +14,13 @@ class Order
     @fulfillment_status = fulfillment_status
   end
 
+  # Helper method
   def status_validation(fulfillment_status)
     case fulfillment_status
     when :pending, :paid, :processing, :shipped, :complete
       return fulfillment_status
     else
-      raise ArgumentError, 'The status is invalid'
+      raise ArgumentError, 'The sym_status is invalid'
     end
   end
 
@@ -49,26 +50,23 @@ class Order
 
   end
 
-  # This class method returns a collection of Order instances
+  # This class method returns an array(collection) of Order instances
   def self.all
     # array_of_Order_instances
     collection_of_order_instances = []
     array_orders = CSV.read('data/orders.csv').map(&:to_a)
     array_orders.each do |order|
-      id = order[0].to_i
-      products = {}
+      int_id = order[0].to_i
+      hash_products = {}
       order[1].split(';').each do |p|
         product = p.split(':')
         # str_product_name, float_product_price
-        products[product[0]] = product[1].to_f
+        hash_products[product[0]] = product[1].to_f
       end
-
-      # Initialize an instance of Customer, int_id
+      # Initialize an instance of Customer, int_id but passed in value is a str
       customer = Customer.find(order[2].to_i)
-      # symbol_fulfillment_status
-      status = order[3].to_sym
-      # Initialize an instance of order
-      instance_of_order = Order.new(id, products, customer, status)
+      sym_status = order[3].to_sym # str to sym
+      instance_of_order = Order.new(int_id, hash_products, customer, sym_status)
       collection_of_order_instances << instance_of_order
     end
 
@@ -76,8 +74,17 @@ class Order
 
   end
 
-end
+  # this class method returns an instance order
+  def self.find(id)
+    array_orders = Order.all # this is how you call a class method
+    array_orders.each do |order|
+      # Access int_id value by calling instance getter method attr_reader :int_id
+      if order.id == id
+        return order
+      end
+    end
+    return nil
+  end
 
-# puts Dir.pwd
-# order = Order.all
-# p order
+
+end
