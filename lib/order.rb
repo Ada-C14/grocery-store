@@ -56,12 +56,10 @@ class Order
       end
 
       # store those babies in a hash {"Lobster"=>17.18, "Annatto seed"=>58.38, "Camomile"=>83.21}
-      product_hash = {}
+      products = {}
       product_array.each do |product|
-        product_hash[product[0]] = product[1].to_f
+        products[product[0]] = product[1].to_f
       end
-
-      products = product_hash
 
       all_orders << Order.new(id, products, customer, status)
 
