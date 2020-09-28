@@ -16,7 +16,7 @@ class Customer
   end
 
   def self.find(id)
-    return self.all
+    return self.all.find{|customer| customer.id == id}
   end
 
   attr_reader :id
