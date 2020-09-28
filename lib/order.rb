@@ -1,6 +1,8 @@
 require_relative 'customer'
 require 'csv'
+
 class Order
+
   attr_reader :id, :products, :customer, :fulfillment_status
 
   def initialize(id, products, customer, fulfillment_status = :pending)
@@ -11,6 +13,7 @@ class Order
     error_1(@fulfillment_status)
   end
 
+  # Error helper method for confirming valid fulfillment status
   def error_1(fulfillment_status)
     statuses = [:pending, :paid, :processing, :shipped, :complete]
     if statuses.include?(fulfillment_status) == false
@@ -18,6 +21,8 @@ class Order
     end
   end
 
+  # Total method - Sums products adds 7.5% tax
+  # Rounding the result to two decimal place
   def total
     if @products.empty?
       return 0
@@ -25,10 +30,6 @@ class Order
       total = (@products.values.sum * 1.075).round(2)
     end
     return total
-    # A total method which will calculate the total cost of the order by:
-    # Summing up the products
-    # Adding a 7.5% tax (*.175) = total + sales tax
-    # Rounding the result to two decimal places (.round(2))
   end
 
   def add_product(product_name, price)
@@ -38,6 +39,7 @@ class Order
     return @products[product_name] = price
   end
 
+  # Parse the list of products into a hash
   def self.helper_split_string_to_hash_method(product)
     products = Hash.new(0)
     product.split(/;/).each do |product_value_pair|
@@ -60,18 +62,7 @@ class Order
     return orders_arr
   end
 
-
   def self.find(id)
     Order.all.find {|customer_order| customer_order.id == id}
     end
 end
-
-# Parse the list of products into a hash
-# This would be a great piece of logic to put into a helper method
-# You might want to look into Ruby's split method
-# We recommend manually copying the first product string from the CSV file and using pry to prototype this logic
-# Turn the customer ID into an instance of Customer
-# Didn't you just write a method to do this?
-
-# orders = CSV.read('../data/orders.csv').map { |row| row.to_a }
-# pp orders
