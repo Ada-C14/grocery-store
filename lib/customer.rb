@@ -31,7 +31,7 @@ class Customer
   end
 
   def Customer.save(filename, new_customer)
-    CSV.open(filename, 'a', headers: true) do |csv|
+    CSV.open(filename, 'a') do |csv| # mode a is append write only.
       csv << [new_customer.id,
               new_customer.email,
               new_customer.address[:street],
