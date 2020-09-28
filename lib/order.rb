@@ -38,13 +38,43 @@ class Order
     return product_name
   end
 
+  # 86,Jasmine rice:73.43;Soy Milk:1.69,4,pending
+  # returns a collection of Order instances, representing all of the Orders described in the CSV file
   def self.all
-    # returns a collection of Order instances, representing all of the Orders described in the CSV file
+    order_instances = []
+
+    orders_csv = CSV.read('data/orders.csv').map { |order| order.to_a}
+    orders_csv.each do |row|
+      id = row[0].to_i
+      products_hash = {}
+      products_array = row[1].split(/;/)
+      products_array.each do |product|
+        item = product.split(/:/)
+        item_key = item[0]
+        item_value = item[1]
+        products_hash[item_key] = item_value.to_f
+      end
+      customer_id = Customer.find(row[2].to_i)
+      fulfillment_status = row[3].to_sym
+
+      order_instances << Order.new(id, products_hash, customer_id, fulfillment_status)
+    end
+
+    return order_instances
   end
 
+
+  # returns an instance of Order where the value of the id field in the CSV matches the passed parameter
+  # Order.find should call Order.all instead of loading the CSV file itself.
   def self.find(id)
-    # returns an instance of Order where the value of the id field in the CSV matches the passed parameter
-    # Order.find should call Order.all instead of loading the CSV file itself.
+    orders_all = self.all
+    orders_all.each do |order|
+      if order.id == id
+        return order
+      end
+    end
+
+    return nil
   end
 
 end
