@@ -49,9 +49,9 @@ class Order
 
   end
 
-  # This class method return a collection of Order instances
+  # This class method returns a collection of Order instances
   def self.all
-    # Collection of Order instances
+    # array_of_Order_instances
     collection_of_order_instances = []
     array_orders = CSV.read('data/orders.csv').map(&:to_a)
     array_orders.each do |order|
@@ -59,21 +59,25 @@ class Order
       products = {}
       order[1].split(';').each do |p|
         product = p.split(':')
-        products[product[0]] = product[1]
+        # str_product_name, float_product_price
+        products[product[0]] = product[1].to_f
       end
 
-      # Initialize an instance of Customer
-      customer = Customer.find(order[2])
-
+      # Initialize an instance of Customer, int_id
+      customer = Customer.find(order[2].to_i)
+      # symbol_fulfillment_status
       status = order[3].to_sym
       # Initialize an instance of order
       instance_of_order = Order.new(id, products, customer, status)
       collection_of_order_instances << instance_of_order
-      return collection_of_order_instances
     end
+
+    return collection_of_order_instances
+
   end
 
 end
 
 # puts Dir.pwd
 # order = Order.all
+# p order
