@@ -37,9 +37,18 @@ class Customer
     return nil
   end
 
+#   #wave 3 (optional)
+#   not sure if "a+" is the right option,though.
+  def self.save(filename, new_customer)
+    new_customers = CSV.open(filename, "a+") #creates file
+    customer_address = []
 
+    new_customer.address.values.each do |value|
+      customer_address << value
+    end
+    new_customers << [new_customer.id, new_customer.email, customer_address[0], customer_address[1], customer_address[2], customer_address[3]]
+    return true
 end
 
-
-
+end
 
