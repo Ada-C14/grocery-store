@@ -10,20 +10,8 @@ class Order
     @products = product
     @customer = customer
 
-    case fulfillment_status
-    when :pending
-      @fulfillment_status = :pending
-    when :paid
-      @fulfillment_status = :paid
-    when :processing
-      @fulfillment_status = :processing
-    when :shipped
-      @fulfillment_status = :shipped
-    when :complete
-      @fulfillment_status = :complete
-    else
-      raise ArgumentError.new("Invalid fulfillment status: #{ fulfillment_status }")
-    end
+    raise ArgumentError.new("Invalid fulfillment status: #{ fulfillment_status }") unless [:pending, :paid, :processing, :shipped, :complete].include? (fulfillment_status)
+    @fulfillment_status = fulfillment_status
   end
 
   def total
