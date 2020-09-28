@@ -13,6 +13,7 @@ class Customer
   end
 
   def self.all
+    # - `self.all` - returns a collection of `Customer` instances, representing all of the Customer described in the CSV file
     modified_csv_data = CSV.read('./data/customers.csv').map do |customer|
       Customer.new(customer[0].to_i,
                    customer[1],
@@ -23,10 +24,10 @@ class Customer
   end
 
   def self.find(id)
-    # - `self.find(id)` - returns an instance of `Customer` where the value of the id field in the CSV matches the passed parameter
-    #  `Customer.find` should not parse the CSV file itself.
-    # Instead it should invoke `Customer.all` and search through the results for a customer with a matching ID.
+    customer_found = Customer.all.select { |customer| customer.id == id ? customer : nil }[0]
+    return customer_found
   end
 end
 
-ap Customer.all
+# ap Customer.all[0].id
+# ap Customer.find(2)
