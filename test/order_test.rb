@@ -155,8 +155,7 @@ describe "Order Wave 2" do
         expect(c.fulfillment_status).must_be_kind_of Symbol
       end
     end
-
-      # TODO: Your test code here!
+    
     end
 
     it "Returns accurate information about the first order" do
