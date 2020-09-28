@@ -83,6 +83,7 @@ class Order
   end
 
   # iterates through all of the orders to find the matching ID
+  # no match would return nil
   def self.find(id)
     return self.all.find { |order| order.id == id}
   end
