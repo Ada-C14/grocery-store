@@ -42,9 +42,6 @@ class Customer
       ]
       return true
     end
-    # csv << [new_customer.id, new_customer.email, new_customer.address.values].flatten
-
-
   end
 
 end
