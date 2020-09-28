@@ -18,7 +18,7 @@ class Customer
 
     collection_of_customer = []
 
-    customers_arr= CSV.read('../data/customers.csv')
+    customers_arr= CSV.read('data/customers.csv')
     customers_arr.each do |customer|
 
       address = {}

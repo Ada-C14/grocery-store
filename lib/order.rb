@@ -49,7 +49,7 @@ class Order
 
   # a method that returns a collection of Order instances
   def self.all
-    order_arr = CSV.read('../data/orders.csv').map do |order|
+    order_arr = CSV.read('data/orders.csv').map do |order|
       id = order[0].to_i
       products = product_hash(order[1])
       customer = Customer.find(order[2].to_i)
