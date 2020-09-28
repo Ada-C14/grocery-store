@@ -71,5 +71,11 @@ class Order
     end
     return hash
   end
+
+  def self.find(id)
+     Order.all.find do |order| order.id == id
+    end
+  end
+
 end
 
