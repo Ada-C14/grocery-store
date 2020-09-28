@@ -10,7 +10,8 @@ class Customer
     @address = address #hash
   end
 
-  # # returns a collection of Customer instances, representing all of the Customer described in the CSV file
+  # returns a collection of Customer instances, representing all of the Customer described in the CSV file
+  # 29,sister@mertz.co,943 Rasheed Walks,Port Kara,AK,79531
   def self.all
     customer_instances = []
 
@@ -23,7 +24,7 @@ class Customer
         street: customer[2],
         city: customer[3],
         state: customer[4],
-        zip_code: customer[5]
+        zip: customer[5]
       }
       customer_instances << Customer.new(id, email, address)
     end
