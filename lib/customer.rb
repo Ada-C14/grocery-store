@@ -51,5 +51,7 @@ class Customer
     new_customer_csv = CSV.open(filename, 'a+') do |csv|
       csv << new_customer_array
     end
+
+    return true
   end
 end

@@ -1,4 +1,5 @@
 require 'csv'
+require_relative '../lib/customer'
 
 class Order
   attr_reader :id
