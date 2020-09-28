@@ -13,9 +13,7 @@ class Customer
 
   # returns a collection of Customer instances
   def self.all
-    customer_instances = []
-    customers = CSV.read('data/customers.csv').map { |row| row.to_a }
-    customers.each do |customer|
+    customers = CSV.read('data/customers.csv').map do |customer|
       id = customer[0].to_i
       email = customer[1]
       address_hash = {
@@ -24,14 +22,14 @@ class Customer
         state: customer[4],
         zip: customer[5]
       }
-      customer_instances << Customer.new(id, email, address_hash)
+      Customer.new(id, email, address_hash)
     end
-      return customer_instances
+      return customers
   end
 
   # return instance of customer (the object) or nil
   def self.find(id)
-    Customer.all.find {|customer| customer.id == id}
+    all.find {|customer| customer.id == id}
   end
 
   # optional
