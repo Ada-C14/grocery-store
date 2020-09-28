@@ -1,5 +1,5 @@
 require 'csv'
-require 'customer'
+require_relative '../lib/customer'
 
 class Order
   attr_reader :id, :products, :customer, :fulfillment_status
@@ -27,8 +27,8 @@ class Order
 
   def self.parse(products)
     product_hash = {}
-    products.split(";").each do |item|
-      details = item.split(":")
+    products.split(';').each do |item|
+      details = item.split(':')
       product_hash[details[0]] = details[1].to_f
     end
     return product_hash
