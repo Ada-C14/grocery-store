@@ -88,6 +88,13 @@ class Order
     return self.all.find { |order| order.id == id}
   end
 
+  # returns a list of Order instances
+  # where the value of the customer's ID matches passes parameter
+  def self.find_by_customer(customer_id)
+    return self.all.select { |order| order.customer.id == customer_id}
+  end
 end
+
+
 
 
