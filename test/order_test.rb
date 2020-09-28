@@ -4,7 +4,7 @@ require 'minitest/skip_dsl'
 
 require_relative '../lib/customer'
 require_relative '../lib/order'
-require 'pry'
+# require 'pry'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
@@ -169,7 +169,6 @@ describe "Order Wave 2" do
 
       expect(orders.length).must_equal 100
       orders.each do |order|
-        # binding.pry
         expect(order).must_be_kind_of Order
 
         expect(order.id).must_be_kind_of Integer
@@ -226,7 +225,6 @@ describe "Order Wave 2" do
     it "Can find the last order from the CSV" do
       # TODO: Your test code here!
       last = Order.find(100)
-      # binding.pry
       expect(last).must_be_kind_of Order
       expect(last.id).must_equal 100
     end
