@@ -38,7 +38,6 @@ class Order
                 Customer.find(order[2].to_i),
                 order[3].to_sym)
     end
-
     return modified_csv_data
   end
 
@@ -46,11 +45,4 @@ class Order
     order_found = Order.all.select { |order| order.id == id ? order : nil }[0]
     return order_found
   end
-
-  # ap Order.all.last.fulfillment_status
-  # ap Order.find(36)
-  # 1. Parse the list of products into a hash
-  #     - This would be a great piece of logic to put into a helper method
-  #     - You might want to look into Ruby's `split` method
-  #     - We recommend manually copying the first product string from the CSV file and using pry to prototype this logic
 end
