@@ -1,5 +1,5 @@
 require 'csv'
-require 'awesome_print'
+# require 'awesome_print'
 
 
 class Customer
