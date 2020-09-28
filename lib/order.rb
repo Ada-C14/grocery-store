@@ -36,7 +36,15 @@ class Order
     end
 
     return product_name
+  end
 
+  def self.all
+    # returns a collection of Order instances, representing all of the Orders described in the CSV file
+  end
+
+  def self.find(id)
+    # returns an instance of Order where the value of the id field in the CSV matches the passed parameter
+    # Order.find should call Order.all instead of loading the CSV file itself.
   end
 
 end
