@@ -1,4 +1,8 @@
+require 'csv'
+require_relative 'customer'
+
 class Order
+  # Getter method return :id, @id value when calls
   attr_reader :id, :products, :customer, :fulfillment_status
 
   # Constructor
@@ -21,10 +25,12 @@ class Order
 
   def total
     sum = 0
+    tax_rate = 0.075
     @products.each do |product, cost|
       sum += cost
     end
-    tax_amount = 0.075 * sum
+
+    tax_amount = tax_rate * sum
     total = sum + tax_amount
 
     return  total.round(2)
@@ -42,4 +48,32 @@ class Order
     return @products
 
   end
+
+  # This class method return a collection of Order instances
+  def self.all
+    # Collection of Order instances
+    collection_of_order_instances = []
+    array_orders = CSV.read('data/orders.csv').map(&:to_a)
+    array_orders.each do |order|
+      id = order[0].to_i
+      products = {}
+      order[1].split(';').each do |p|
+        product = p.split(':')
+        products[product[0]] = product[1]
+      end
+
+      # Initialize an instance of Customer
+      customer = Customer.find(order[2])
+
+      status = order[3].to_sym
+      # Initialize an instance of order
+      instance_of_order = Order.new(id, products, customer, status)
+      collection_of_order_instances << instance_of_order
+      return collection_of_order_instances
+    end
+  end
+
 end
+
+# puts Dir.pwd
+# order = Order.all
