@@ -59,6 +59,12 @@ describe "Order Wave 1" do
         }.must_raise ArgumentError
       end
     end
+    it 'Raises error if trying to initialize with incorrect argument type' do
+      expect { Order.new(nil, {}, customer) }.must_raise ArgumentError
+      expect { Order.new(3, 7000, customer) }.must_raise ArgumentError
+      expect { Order.new(3, {}, "Customer") }.must_raise ArgumentError
+      expect { Order.new(3, {}, customer, nil) }.must_raise ArgumentError
+    end
   end
 
   describe "#total" do
@@ -110,6 +116,16 @@ describe "Order Wave 1" do
       # The list of products should not have been modified
       expect(order.total).must_equal before_total
     end
+
+    it "Raises ArgumentError if arguments are incorrect types" do
+      order = Order.new(1337, {}, customer)
+      expect {
+        order.add_product(:olive, 4.25)
+      }.must_raise ArgumentError
+      expect {
+        order.add_product("olive", "4.25")
+      }.must_raise ArgumentError
+    end
   end
 
   describe '#remove_product' do
@@ -143,6 +159,18 @@ describe "Order Wave 1" do
 
       # The list of products should not have been modified
       expect(order.total).must_equal before_total
+    end
+
+    it "Raises ArgumentError if product_name is non-String" do
+
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+
+      order = Order.new(1337, products, customer)
+
+      expect {
+        order.remove_product(:cracker)
+      }.must_raise ArgumentError
+
     end
   end
 
@@ -226,6 +254,10 @@ describe "Order Wave 2" do
     it "Returns nil for an order that doesn't exist" do
       expect(Order.find(1454)).must_be_nil
     end
+
+    it 'Raises error if id is non-integer' do
+      expect { Order.find(nil) }.must_raise ArgumentError
+    end
   end
 
   describe "Order.find_by_customer" do
@@ -240,6 +272,10 @@ describe "Order Wave 2" do
 
     it "Returns nil if customer doesn't exist" do
       expect(Order.find_by_customer(3400)).must_be_nil
+    end
+
+    it 'Raises error if customer id is non-integer' do
+      expect { Order.find(nil) }.must_raise ArgumentError
     end
 
   end
