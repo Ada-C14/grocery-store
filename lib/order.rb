@@ -7,14 +7,23 @@ class Order
   def self.all
     all_orders = CSV.read('data/orders.csv').map do |row|
       id = row[0].to_i
-      products =  {"item_1" => row[1].to_i, "item_2" => row[2].to_i, "item_3" => row[3].to_i}
-      customer_id = row[4].to_i
-      fulfillment_status = row[5]
-      # Order.new((id, products, customer_id, fulfillment_status=:pending)
+      products =  row[1]
+      customer = Customer.find(row[2].to_i)
+      fulfillment_status = row[3].to_sym
+      order = Order.new(id, products, customer, fulfillment_status)
     end
     return all_orders
   end
-  # 21,Ricemilk:38.96;Celery Seed:53.7;SwordfishTabasco:70.52,29,complete
+
+
+  def self.find(id)
+    orders = Orders.all
+
+    orders.each do |order|
+      return order if order.id == id
+    end
+    return nil
+  end
 
   def initialize(id, products, customer_id, fulfillment_status = :pending)
     @id = id

@@ -9,22 +9,18 @@ class Customer
       id = row[0].to_i
       email = row[1]
       address = {:street =>row[2], :city => row[3], :state => row[4], :zip => row[5]}
-      Customer.new(row[0].to_i, row[1],address)
+      Customer.new(id, email, address)
     end
     return all_customers
   end
 
-
   def self.find(id)
-    values = Customer.all
-    values.each do |instance|
-      if instance.id == id
-        return instance
+    customers = Customer.all
+    customers.each do |customer|
+        return customer if customer.id == id
       end
-    end
     return nil
   end
-
 
   def initialize(id, email, address)
     @id = id
