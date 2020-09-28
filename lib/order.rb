@@ -20,7 +20,7 @@ class Order
     when :pending, :paid, :processing, :shipped, :complete
       return fulfillment_status
     else
-      raise ArgumentError, 'The sym_status is invalid'
+      raise ArgumentError, "The #{fulfillment_status} is invalid"
     end
   end
 
