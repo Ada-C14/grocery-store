@@ -54,6 +54,7 @@ describe "Order Wave 1" do
     it "Raises an ArgumentError for bogus statuses" do
       bogus_statuses = [3, :bogus, 'pending', nil]
       bogus_statuses.each do |fulfillment_status|
+        print fulfillment_status
         expect {
           Order.new(1, {}, customer, fulfillment_status)
         }.must_raise ArgumentError
@@ -114,10 +115,23 @@ describe "Order Wave 1" do
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
+      orders = Order.all
+      p orders
+
+      expect(orders.length).must_equal 100
+      orders.each do |o|
+        expect(o).must_be_kind of Order
+        expect(o.id).must_be_kind_of Integer
+        expect(o.products).must_be_kind_of Hash
+        expect(o.customer).must_be_kind_of Integer
+        expect(o.fulfillment_status).must_be_kind_of Symbol
+
+      end
+
+
     end
 
     it "Returns accurate information about the first order" do
@@ -147,7 +161,10 @@ xdescribe "Order Wave 2" do
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      first = Order.find(1)
+
+      expect(first).must_be_kind_of Order
+      expect(first.id).must_equal 1
     end
 
     it "Can find the last order from the CSV" do
