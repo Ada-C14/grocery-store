@@ -114,10 +114,21 @@ describe "Order Wave 1" do
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
       # TODO: Your test code here!
+      orders = Order.all
+
+      expect(orders).must_be_instance_of Array
+
+      expect(orders.length).must_equal 100
+      orders.each do |order|
+        expect(order).must_be_kind_of Order
+        expect(order.id).must_be_kind_of Integer
+        expect(order.products).must_be_kind_of Hash
+        expect(order.fulfillment_status).must_be_kind_of Symbol
+      end
     end
 
     it "Returns accurate information about the first order" do
@@ -142,20 +153,69 @@ xdescribe "Order Wave 2" do
 
     it "Returns accurate information about the last order" do
       # TODO: Your test code here!
+      id = 100
+      products = {"Amaranth" => 83.81, "Smoked Trout" => 70.6, "Cheddar" => 5.63}
+      customer_id = 20
+      fulfillment_status = :pending
+
+      last = Order.all.last
+      expect(last.id).must_equal id
+      expect(last.products).must_equal products
+      expect(last.customer).must_be_kind_of Customer
+      expect(last.customer.id).must_equal customer_id
+      expect(last.fulfillment_status).must_equal fulfillment_status
     end
   end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
+      order = Order.find(1)
+      expect(order).must_be_kind_of Order
+      expect(order.id).must_equal 1
     end
 
     it "Can find the last order from the CSV" do
       # TODO: Your test code here!
+      order = Order.find(100)
+      expect(order).must_be_kind_of Order
+      expect(order.id).must_equal 100
     end
 
     it "Returns nil for an order that doesn't exist" do
       # TODO: Your test code here!
+      order = Order.find(3439483)
+      expect(order).must_be_nil
+    end
+  end
+
+  describe "Order.find_by_customer" do
+    it "returns an array for order by specific customer id" do
+      orders = Order.find_by_customer(31)
+
+      expect(orders).must_be_kind_of Array
+
+      orders.each do |order|
+        expect(order).must_be_kind_of Order
+        expect(order.customer.id).must_equal 31
+      end
+    end
+
+    it "returns accurate information about last order" do
+      products = {"Aniseed" => 25.58, "Hummus" => 13.83}
+      orders = Order.find_by_customer(31)
+      expect(orders.last.products).must_equal products
+    end
+
+    it "returns accurate info about first order" do
+      products = {"Pumpkin Seed" => 24.63}
+      orders = Order.find_by_customer(31)
+      expect(orders.first.products).must_equal products
+    end
+
+    it "returns nil for customer id that doesn't exist" do
+      orders = Order.find_by_customer(29384)
+      expect(orders).must_be_nil
     end
   end
 end
