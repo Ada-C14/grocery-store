@@ -30,7 +30,7 @@ describe "Customer Wave 1" do
       expect(cust.address).must_equal ADDRESS
     end
 
-    it 'raises error if trying to initialize with incorrect argument type' do
+    it 'Raises error if trying to initialize with incorrect argument type' do
       expect { Customer.new(nil, EMAIL, ADDRESS) }.must_raise ArgumentError
       expect { Customer.new(ID, 7000, ADDRESS) }.must_raise ArgumentError
       expect { Customer.new(ID, EMAIL, "Address") }.must_raise ArgumentError
@@ -96,6 +96,9 @@ describe "Customer Wave 2" do
       expect(Customer.find(53145)).must_be_nil
     end
 
+    it 'Raises error if passing non-integer' do
+      expect { Customer.find(nil) }.must_raise ArgumentError
+    end
 
   end
 end

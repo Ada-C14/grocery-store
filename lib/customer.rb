@@ -1,7 +1,8 @@
 require 'csv'
-require_relative '../lib/arg_errors'
+require_relative '../lib/arg_error'
+
 class Customer
-  include ArgErrors
+  include ArgError
 
   attr_reader :id
   attr_accessor :email, :address
@@ -26,6 +27,7 @@ class Customer
   end
 
   def self.find(id)
+    self.arg_class_check(id, "id", Integer)
     return self.all.find{|customer| customer.id == id}
   end
 
