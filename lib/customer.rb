@@ -10,8 +10,7 @@ class Customer
     @address = address #hash
   end
 
-  # returns a collection of Customer instances, representing all of the Customer described in the CSV file
-  # 29,sister@mertz.co,943 Rasheed Walks,Port Kara,AK,79531
+
   def self.all
     customer_instances = []
 
@@ -32,7 +31,6 @@ class Customer
     return customer_instances
   end
 
-
   def self.find(id)
     # returns an instance of Customer where the value of the id field in the CSV matches the passed parameter
     customers_all = self.all
@@ -43,8 +41,5 @@ class Customer
     end
     return nil
   end
-
-  # Customer.find should not parse the CSV file itself.
-  # Instead it should invoke Customer.all and search through the results for a customer with a matching ID.
 
 end

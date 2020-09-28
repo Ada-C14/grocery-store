@@ -14,8 +14,7 @@ class Order
     end
   end
 
-  # Create product collection, array of hashes
-  # Check if order_products is empty hash
+
   def total
     subtotal = @products.values.sum
     subtotal_tax = subtotal * 1.075
@@ -24,9 +23,6 @@ class Order
     return total
   end
 
-
-
-  # Problem of accessing product_collection array from outside method
   def add_product(product_name, price)
     # .key? or has_key?
     if @products.key?(product_name)
@@ -38,8 +34,7 @@ class Order
     return product_name
   end
 
-  # 86,Jasmine rice:73.43;Soy Milk:1.69,4,pending
-  # returns a collection of Order instances, representing all of the Orders described in the CSV file
+
   def self.all
     order_instances = []
 
@@ -63,9 +58,6 @@ class Order
     return order_instances
   end
 
-
-  # returns an instance of Order where the value of the id field in the CSV matches the passed parameter
-  # Order.find should call Order.all instead of loading the CSV file itself.
   def self.find(id)
     orders_all = self.all
     orders_all.each do |order|
