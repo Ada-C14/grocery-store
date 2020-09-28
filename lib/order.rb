@@ -38,9 +38,7 @@ class Order
 
   # returns array of order objects
   def self.all
-    order_instances = []
-    orders = CSV.read('data/orders.csv').map { |row| row.to_a }
-    orders.each do |order|
+    orders = CSV.read('data/orders.csv').map do |order|
       id = order[0].to_i
       products = {}
       products_array = order[1].split(";")
@@ -52,20 +50,20 @@ class Order
       customer_id = order[2].to_i
       customer = Customer.find(customer_id)
       status = order[3].to_sym
-      order_instances << Order.new(id, products, customer, status)
+      Order.new(id, products, customer, status)
     end
-    return order_instances
+    return orders
   end
 
   # returns an order object with id.
   def self.find(id)
-    Order.all.find { |order| order.id == id }
+    all.find { |order| order.id == id }
   end
 
   # optional
   # returns list of order objects that match customer id
   def self.find_by_customer(customer_id)
-    orders = Order.all.filter { |order| order.customer.id == customer_id}
+    orders = all.filter { |order| order.customer.id == customer_id}
     orders.empty? ? nil : orders
   end
 end
