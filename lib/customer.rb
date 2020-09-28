@@ -1,11 +1,16 @@
 require 'csv'
-
+require_relative '../lib/arg_errors'
 class Customer
+  include ArgErrors
 
   attr_reader :id
   attr_accessor :email, :address
 
   def initialize(id, email, address)
+    arg_class_check(id, "id", Integer)
+    arg_class_check(email, "email", String)
+    arg_class_check(address, "address", Hash)
+
     @id =  id
     @email = email
     @address = address
