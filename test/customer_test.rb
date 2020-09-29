@@ -32,8 +32,8 @@ describe "Customer Wave 1" do
   end
 end
 
-# TODO: remove the 'x' in front of this block when you start wave 2
-xdescribe "Customer Wave 2" do
+# DONE: remove the 'x' in front of this block when you start wave 2
+describe "Customer Wave 2" do
   describe "Customer.all" do
     it "Returns an array of all customers" do
       customers = Customer.all
@@ -63,7 +63,7 @@ xdescribe "Customer Wave 2" do
       last = Customer.all.last
 
       expect(last.id).must_equal 35
-      expect(last.email).must_equal "rogers_koelpin@oconnell.org"
+      expect(last.email).must_equal 'rogers_koelpin@oconnell.org'
       expect(last.address[:street]).must_equal '7513 Kaylee Summit'
       expect(last.address[:city]).must_equal 'Uptonhaven'
       expect(last.address[:state]).must_equal 'DE'
