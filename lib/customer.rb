@@ -13,4 +13,9 @@ class Customer
     @email = email
     @address = address
   end
+
+  def self.all
+
+
+
   end
