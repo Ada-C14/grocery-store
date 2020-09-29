@@ -18,21 +18,20 @@ class Order
 
   def total
     value = 0
-    @products.each do |cost|
+    @products.each do |item, cost|
       value += cost
 
-      value *= 0.075
-
     end
-    return total
+
+    return (value * 1.075).round(2)
   end
 
-  def add_prodcut(product_name, price)
+  def add_product(product_name, price)
     if @products.include?(product_name)
       raise ArgumentError #puts message here
     else
       @products[product_name]=price
     end
   end
-  
+
 end
