@@ -7,8 +7,8 @@ class Order
   attr_accessor :products, :customer,:fulfillment_status
 
   def initialize(id,products,customer,fulfillment_status = :pending)
-    good_Values = [:pending,:paid,:processing,:shipped,:complete]
-    if !good_Values.include(fulfillment_status)
+    good_values = [:pending,:paid,:processing,:shipped,:complete]
+    if !good_values.include(fulfillment_status)
       raise ArgumentError, "#{fulfillment_status} Order status error.  Need valid status."
     end
     @id = id
@@ -16,6 +16,7 @@ class Order
     @customer = customer
     @fulfillment_status = fulfillment_status
   end
+
   # Method that will find total cost of an order and add tax (Wave 1)
   def total
     if @products.empty?
@@ -34,19 +35,6 @@ class Order
     end
     return @products[product_name] = price
   end
-
-  #Parse the list of products into a hash
-  def self.helper_split_string_to_hash_method(product)
-    products = Hash.new(0)
-    product.split(/;/).each do |product_value_pair|
-      product, price  = product_value_pair.split(/:/)
-      products[product] = price.to_f
-    end
-    return products
-  end
-
-
-
-
+  
 
 end

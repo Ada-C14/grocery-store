@@ -14,8 +14,5 @@ class Customer
     @address = address
   end
 
-  def self.all
-
-
 
   end
