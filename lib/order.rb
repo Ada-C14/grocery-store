@@ -5,16 +5,28 @@ class Order
   attr_accessor :products, :customer, :fulfillment_status
 
   def self.all
-    all_orders = CSV.read('data/orders.csv').map do |row|
+    return CSV.read('data/orders.csv').map do |row|
       id = row[0].to_i
-      products =  row[1]
+      products =  product_hash(row[1])
       customer = Customer.find(row[2].to_i)
       fulfillment_status = row[3].to_sym
-      order = Order.new(id, products, customer, fulfillment_status)
+      Order.new(id, products, customer, fulfillment_status)
     end
-    return all_orders
   end
 
+  def self.product_hash(product_string)
+    product_hash = {}
+    products = product_string.split(';')
+
+    products.each do |product|
+        name_price = product.split(':')  # ["[product name", "price"]
+        name_var = name_price[0]
+        price_var = name_price[1].to_f
+      product_hash[name_var] = price_var
+    end
+    return product_hash
+   # 88.5 Iceberg lettuce1; Rice paper: 66.35;Amaranth:1.5 ;Walnut:65.26
+  end
 
   def self.find(id)
     orders = Orders.all
