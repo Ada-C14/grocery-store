@@ -19,7 +19,7 @@ class Order
     products = product_string.split(';')
 
     products.each do |product|
-        name_price = product.split(':')  # ["[product name", "price"]
+        name_price = product.split(':')  # ["product name", "price"]
         name_var = name_price[0]
         price_var = name_price[1].to_f
       product_hash[name_var] = price_var
