@@ -35,6 +35,7 @@ class Customer
     CSV.open(filename, "wb") do |csv|
       csv << [new_customer.id, new_customer.email, new_customer.address[:street], new_customer.address[:city], new_customer.address[:state], new_customer.address[:zip]]
     end
+    return true
   end
 
   private

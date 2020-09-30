@@ -44,7 +44,6 @@ class Order
   end
 
   def self.all
-
     return CSV.parse(File.read("./data/orders.csv"), headers: [:id, :products, :customer_id, :status]).map do |row|
       Order.new(row[:id].to_i, to_products(row[:products]), Customer.find(row[:customer_id].to_i), row[:status].to_sym)
     end
