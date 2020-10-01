@@ -29,11 +29,17 @@ describe "Customer Wave 1" do
       expect(cust).must_respond_to :address
       expect(cust.address).must_equal ADDRESS
     end
+
+    it 'Raises error if trying to initialize with incorrect argument type' do
+      expect { Customer.new(nil, EMAIL, ADDRESS) }.must_raise ArgumentError
+      expect { Customer.new(ID, 7000, ADDRESS) }.must_raise ArgumentError
+      expect { Customer.new(ID, EMAIL, "Address") }.must_raise ArgumentError
+    end
+
   end
 end
 
-# TODO: remove the 'x' in front of this block when you start wave 2
-xdescribe "Customer Wave 2" do
+describe "Customer Wave 2" do
   describe "Customer.all" do
     it "Returns an array of all customers" do
       customers = Customer.all
@@ -89,5 +95,10 @@ xdescribe "Customer Wave 2" do
     it "Returns nil for a customer that doesn't exist" do
       expect(Customer.find(53145)).must_be_nil
     end
+
+    it 'Raises error if passing non-integer' do
+      expect { Customer.find(nil) }.must_raise ArgumentError
+    end
+
   end
 end
