@@ -111,13 +111,59 @@ describe "Order Wave 1" do
       expect(order.total).must_equal before_total
     end
   end
+  
+  # Optional - test for remove_product
+  describe "#remove_product" do
+    it "Decreases the number of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "sandwich" => 4.25 }
+      before_count = products.count
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("sandwich")
+      expected_count = before_count - 1
+      expect(order.products.count).must_equal expected_count
+    end
+
+    it "Is deleted the collection of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "sandwich" => 4.25}
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("sandwich")
+      expect(order.products.include?("sandwich")).must_equal false
+    end
+
+    it "Raises an ArgumentError if the product is already deleted" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+
+      order = Order.new(1337, products, customer)
+      before_total = order.total
+
+      expect {
+        order.remove_product("sandwich")
+      }.must_raise ArgumentError
+
+      # The list of products should not have been modified
+      expect(order.total).must_equal before_total
+    end
+  end
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
       # TODO: Your test code here!
+      orders = Order.all
+
+      expect(orders.length).must_equal 100
+      orders.each do |order|
+        expect(order).must_be_kind_of Order
+        expect(order.id).must_be_kind_of Integer
+        expect(order.products).must_be_kind_of Hash
+        expect(order.customer).must_be_kind_of Customer
+        expect(order.customer.id).must_be_kind_of Integer
+        expect(order.fulfillment_status).must_be_kind_of Symbol
+      end
     end
 
     it "Returns accurate information about the first order" do
@@ -142,20 +188,65 @@ xdescribe "Order Wave 2" do
 
     it "Returns accurate information about the last order" do
       # TODO: Your test code here!
+      last = Order.all.last
+
+      expect(last.id).must_equal 100
+      expect(last.products).must_equal Hash("Amaranth"=> 83.81, "Smoked Trout"=> 70.6, "Cheddar"=> 5.63)
+      expect(last.customer).must_be_kind_of Customer
+      expect(last.customer.id).must_equal 20
+      expect(last.fulfillment_status).must_equal :pending
     end
   end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
+      first = Order.find(1)
+
+      expect(first).must_be_kind_of Order
+      expect(first.id).must_equal 1
     end
 
     it "Can find the last order from the CSV" do
       # TODO: Your test code here!
+      last = Order.find(100)
+
+      expect(last).must_be_kind_of Order
+      expect(last.id).must_equal 100
     end
 
     it "Returns nil for an order that doesn't exist" do
       # TODO: Your test code here!
+      expect(Order.find(53145)).must_be_nil
+    end
+  end
+
+  describe "Order.find_by_customer" do
+    it "Can find the orders by customer#1 from the CSV" do
+      first = Order.find_by_customer(1)
+
+      expect(first).must_be_kind_of Array
+      first.each do |order|
+        expect(order).must_be_kind_of Order
+        expect(order.product).must_equal [{"Wholewheat flour"=>0.95}]
+        expect(order.customer).must_be_kind_of Customer
+        expect(order.customer.id).must_equal 1
+      end
+    end
+
+    it "Can find the orders by customer#35 from the CSV" do
+      last = Order.find_by_customer(35)
+
+      expect(last).must_be_kind_of Array
+      last.each do |order|
+        expect(order).must_be_kind_of Order
+        expect(order.customer).must_be_kind_of Customer
+        expect(order.customer.id).must_equal 35
+      end
+    end
+
+    it "Returns nil for an customer that doesn't exist" do
+      expect(Order.find_by_customer(53145)).must_be_empty
     end
   end
 end
