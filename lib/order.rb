@@ -5,12 +5,15 @@ class Order
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
 
+  VALID_STATUSES = [:pending, :paid, :processing, :shipped, :complete]
+
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
     @products = products
     @customer = customer
 
-    [:pending, :paid, :processing, :shipped, :complete].include?(fulfillment_status) ? ( @fulfillment_status = fulfillment_status ) : ( raise ArgumentError.new("Invalid fulfillment status.") )
+    raise ArgumentError.new("Invalid fulfillment status.") if ! VALID_STATUSES.include?(fulfillment_status)
+    @fulfillment_status = fulfillment_status
   end
 
   def total
@@ -23,11 +26,13 @@ class Order
   end
 
   def add_product(product_name, price)
-    @products.keys.include?(product_name) ? ( raise ArgumentError.new("Product with that name has already been added to the order.") ) : ( @products[product_name] = price )
+    raise ArgumentError.new("Product with that name has already been added to the order.") if @products.keys.include?(product_name)
+    @products[product_name] = price
   end
 
   def remove_product(product_name)
-    @products.keys.include?(product_name) ? ( @products.delete(product_name) ) : ( raise ArgumentError.new("Product with that name was not found.") )
+    raise ArgumentError.new("Product with that name was not found.") if ! @products.keys.include?(product_name)
+    @products.delete(product_name)
   end
 
   def self.to_products(product_list)
