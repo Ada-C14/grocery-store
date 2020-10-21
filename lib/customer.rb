@@ -1,5 +1,4 @@
-require 'csv'
-require 'awesome_print'
+require "csv"
 
 class Customer
   attr_reader :id
@@ -21,22 +20,18 @@ class Customer
         street: row[2],
         city: row[3],
         state: row[4],
-        zip: row[5]
+        zip: row[5],
       }
-      new_format = Customer.new(row[0].to_i, row[1], address_format) 
+      new_format = Customer.new(row[0].to_i, row[1], address_format)
       customers << new_format
-    end 
-      return customers
+    end
+
+    return customers
   end
 
- #returns an instance of Customer where the value of the id field in the CSV matches the passed paramete
-
-def self.find(id)
-  selected_id = self.all.find { |customer| customer.id == id }
-  return selected_id
-end 
-
-  # ap self.all
-
+  def self.find(id)
+    found_customer = Customer.all.find { |customer| customer.id == id.to_i }
+    return found_customer
+  end
 
 end
