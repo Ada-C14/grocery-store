@@ -10,12 +10,10 @@ class Customer
   end
 
   def self.all
-    # reads the customers.csv and formats each row into a hash
-    customers = CSV.read('data/customers.csv', headers: true).map do |row|
-      row.to_h
-    end
     # creates a new Customer instance for each customer in the CSV file
-    return customers.map do |customer|
+    return CSV.read('data/customers.csv', headers: true).map do |row|
+      customer = row.to_h
+
       address = {
           street: customer["street"],
           city: customer["city"],
@@ -25,6 +23,9 @@ class Customer
 
       Customer.new(customer["id"].to_i, customer["email"], address)
     end
+
+
+
   end
 
   # iterates through all of the customers to find the matching ID
