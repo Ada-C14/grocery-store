@@ -68,12 +68,9 @@ class Order
 
   def self.all
     # reads the orders.csv and formats each row into a hash
-    orders = CSV.read('data/orders.csv', headers: true).map do |row|
-      row.to_h
-    end
-
-    # creates a new Order instance for each order in the CSV file
-    return orders.map do |order|
+    return CSV.read('data/orders.csv', headers: true).map do |row|
+      order = row.to_h
+      
       # invokes the products to hash method to reformat the products
       products = products_hash_format(order["products"])
       customer = Customer.find(order["customer_id"].to_i)
