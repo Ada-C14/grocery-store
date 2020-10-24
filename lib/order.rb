@@ -70,7 +70,7 @@ class Order
     # reads the orders.csv and formats each row into a hash
     return CSV.read('data/orders.csv', headers: true).map do |row|
       order = row.to_h
-      
+
       # invokes the products to hash method to reformat the products
       products = products_hash_format(order["products"])
       customer = Customer.find(order["customer_id"].to_i)
@@ -82,13 +82,13 @@ class Order
   # iterates through all of the orders to find the matching ID
   # no match would return nil
   def self.find(id)
-    return self.all.find { |order| order.id == id}
+    return all.find { |order| order.id == id}
   end
 
   # returns a list of Order instances
   # where the value of the customer's ID matches passes parameter
   def self.find_by_customer(customer_id)
-    return self.all.select { |order| order.customer.id == customer_id}
+    return all.select { |order| order.customer.id == customer_id}
   end
 end
 
