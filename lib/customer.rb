@@ -31,7 +31,7 @@ class Customer
   # iterates through all of the customers to find the matching ID
   # no match would return nil
   def self.find(id)
-    return self.all.find { |customer| customer.id == id }
+    return all.find { |customer| customer.id == id }
   end
 
 end
