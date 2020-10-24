@@ -27,7 +27,7 @@ class Order
 
   def add_product(product_name, price)
     # raise error if there is a duplicate product
-    if @products.keys.include?(product_name)
+    if @products.include?(product_name)
       raise ArgumentError, 'Item has already been added to the order'
     end
 
